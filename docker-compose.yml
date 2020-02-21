@@ -28,6 +28,7 @@ services:
     # запускаем SUT (запоминаем информацию о процессе в переменной $App)
       - ps: $App = Start-Process -FilePath javaScript -ArgumentList "-js ./gate-simulator/app.js" -PassThru
     build_script:
-      - ps: ./npm start --info "_properties = initProperties("./Properties.properties")"
+      - ps: ./npm start --info "_properties = initProperties("./application.properties")"
+      # - ps: ./npm start --info "-Dproperty.headless=true"
     on_finish:
       - ps: Stop-Process -Id $App.Id  # оставливаем SUT
