@@ -21,14 +21,9 @@ services:
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
   nodejs:
+    image: node:8.16.2-alpine
     build: ./gate-simulator
     ports:
       - "9999:9999"
-    install:
-    # запускаем SUT (запоминаем информацию о процессе в переменной $App)
-      - ps: $App = Start-Process -FilePath javaScript -ArgumentList "-js ./gate-simulator/app.js" -PassThru
-    build_script:
-      - ps: ./npm start --info "_properties = initProperties("./application.properties")"
-      # - ps: ./npm start --info "-Dproperty.headless=true"
-    on_finish:
-      - ps: Stop-Process -Id $App.Id  # оставливаем SUT
+    depends_on:
+      - mysql
