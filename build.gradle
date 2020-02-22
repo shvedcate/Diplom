@@ -20,11 +20,9 @@ dependencies {
     testImplementation 'com.codeborne:selenide:5.3.1'
     testImplementation 'com.github.javafaker:javafaker:1.0.1'
     testImplementation 'commons-dbutils:commons-dbutils:1.7'
-    compile group: 'org.jsweet.candies', name: 'node', version: '7.5.0-20170726'
 }
 
 test {
     useJUnitPlatform()
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
-    systemProperty 'property.headless', System.getProperty('property.headless')
 }
