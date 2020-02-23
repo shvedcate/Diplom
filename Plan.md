@@ -8,18 +8,22 @@
 
 1. Запустить Docker Toolbox (Если установлен Docker, то в файле application.properties
 нужно вместо ip хоста написать localhost)
-1. Загрузить контейнеры mysql и postgres в терминале IDEA командой 
+1. Загрузить контейнеры mysql, postgres и образ платежного шлюза nodejs в терминале IDEA командой 
            ````
            docker-compose up
            ````
-1. Запустить платежный шлюз во втором терминале командой 
+1. Во втором терминале в папке gate-simulator запустить платежный шлюз командой 
             ````
              npm start
              ````
-1. Запустить SUT в третьем терминале командой
+1. В третьем терминале в папке artifacts запустить SUT командой
             ````
-            java -jar aqa-shop.jar -P:jdbc.url=jdbc:mysql://192.168.99.100:8080/app
+            java -jar aqa-shop.jar
             ````
+1. В браузере открыть SUT в окне с адресом 
+             ````
+             localhost:8080
+             ````
 1. Запустить автотесты командой 
             ````
             gradlew test
