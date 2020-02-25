@@ -2,11 +2,14 @@ package ru.netology.page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import ru.netology.data.DataHelper;
+import ru.netology.data.User;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static ru.netology.data.DataHelper.generateForCard;
 
 public class CashPaymentPage {
 
@@ -25,27 +28,28 @@ public class CashPaymentPage {
         heading.waitUntil(Condition.exist, 5000);
     }
 
-    public void cssTest() {
-        cardNumberField.setValue("4444444444444441");
-        monthInputField.setValue("02");
-        yearInputField.setValue("20");
-        cvcInputField.setValue("123");
-        ownerField.setValue("vasya");
-        continueButton.click();
-        successNotification.waitUntil(Condition.visible, 15000);
-
+    public void getCardNumber(DataHelper.CardNumber info) {
+        cardNumberField.setValue(info.getCardNumber());
     }
 
-    public void cssInvalidTest() {
-        cardNumberField.setValue("4444");
-        monthInputField.setValue("15");
-        yearInputField.setValue("28");
-        cvcInputField.setValue("123");
-        ownerField.setValue("vasya");
+    public void putValidCardData(DataHelper.CardInfo info) {
+        monthInputField.setValue(info.getMonth());
+        yearInputField.setValue(info.getYear());
+        cvcInputField.setValue(info.getCvc());
+        User userName = generateForCard();
+        ownerField.setValue(String.valueOf(userName));
         continueButton.click();
-        errorNotification.waitUntil(Condition.visible, 15000);
-
     }
+
+    public void validVerify() {
+        successNotification.waitUntil(Condition.visible, 35000);
+    }
+
+    public void errorVerify() {
+        errorNotification.waitUntil(Condition.visible, 35000);
+    }
+
+
 
 
 }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.netology.test.PaymentPageTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2020-02-24T10:33:21" hostname="DESKTOP-SU2QJ66" time="30.23">
+<testsuite name="ru.netology.test.PaymentPageTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2020-02-25T10:20:17" hostname="DESKTOP-SU2QJ66" time="54.151">
   <properties/>
-  <testcase name="shouldNotBuyTourWithCashAndInvalidData()" classname="ru.netology.test.PaymentPageTest" time="30.23">
-    <failure message="com.codeborne.selenide.ex.ElementShould: Element should be visible {with text: Ошибка! Банк отказал в проведении операции.}&#10;Element: '&lt;div class=&quot;notification__content&quot; displayed:false&gt;&lt;/div&gt;'&#10;Actual value: visible:false&#10;Screenshot: file:/C:/Docker/diplom/build/reports/tests/1582540430929.0.png&#10;Page source: file:/C:/Docker/diplom/build/reports/tests/1582540430929.0.html&#10;Timeout: 15 s." type="com.codeborne.selenide.ex.ElementShould">com.codeborne.selenide.ex.ElementShould: Element should be visible {with text: Ошибка! Банк отказал в проведении операции.}
+  <testcase name="shouldGetErrorIfBuyWithCashValidDataAndDeclinedCard()" classname="ru.netology.test.PaymentPageTest" time="54.151">
+    <failure message="com.codeborne.selenide.ex.ElementShould: Element should be visible {with text: Ошибка! Банк отказал в проведении операции.}&#10;Element: '&lt;div class=&quot;notification__content&quot; displayed:false&gt;&lt;/div&gt;'&#10;Actual value: visible:false&#10;Screenshot: file:/C:/Docker/diplom/build/reports/tests/1582626070959.0.png&#10;Page source: file:/C:/Docker/diplom/build/reports/tests/1582626070959.0.html&#10;Timeout: 35 s." type="com.codeborne.selenide.ex.ElementShould">com.codeborne.selenide.ex.ElementShould: Element should be visible {with text: Ошибка! Банк отказал в проведении операции.}
 Element: '&lt;div class=&quot;notification__content&quot; displayed:false&gt;&lt;/div&gt;'
 Actual value: visible:false
-Screenshot: file:/C:/Docker/diplom/build/reports/tests/1582540430929.0.png
-Page source: file:/C:/Docker/diplom/build/reports/tests/1582540430929.0.html
-Timeout: 15 s.
+Screenshot: file:/C:/Docker/diplom/build/reports/tests/1582626070959.0.png
+Page source: file:/C:/Docker/diplom/build/reports/tests/1582626070959.0.html
+Timeout: 35 s.
 	at com.codeborne.selenide.impl.WebElementSource.checkCondition(WebElementSource.java:72)
 	at com.codeborne.selenide.commands.Should.execute(Should.java:24)
 	at com.codeborne.selenide.commands.Should.execute(Should.java:10)
 	at com.codeborne.selenide.commands.Commands.execute(Commands.java:145)
 	at com.codeborne.selenide.impl.SelenideElementProxy.dispatchAndRetry(SelenideElementProxy.java:99)
 	at com.codeborne.selenide.impl.SelenideElementProxy.invoke(SelenideElementProxy.java:65)
-	at com.sun.proxy.$Proxy13.waitUntil(Unknown Source)
-	at ru.netology.page.CashPaymentPage.cssInvalidTest(CashPaymentPage.java:46)
-	at ru.netology.test.PaymentPageTest.shouldNotBuyTourWithCashAndInvalidData(PaymentPageTest.java:27)
+	at com.sun.proxy.$Proxy14.waitUntil(Unknown Source)
+	at ru.netology.page.CashPaymentPage.errorVerify(CashPaymentPage.java:49)
+	at ru.netology.test.PaymentPageTest.shouldGetErrorIfBuyWithCashValidDataAndDeclinedCard(PaymentPageTest.java:38)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -108,28 +108,27 @@ Timeout: 15 s.
 </failure>
   </testcase>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[фев 24, 2020 2:33:21 PM com.codeborne.selenide.drivercommands.LazyDriver getAndCheckWebDriver
+  <system-err><![CDATA[фев 25, 2020 2:20:17 PM com.codeborne.selenide.drivercommands.LazyDriver getAndCheckWebDriver
 INFO: No webdriver is bound to current thread: 11 - let's create a new webdriver
 SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-Starting ChromeDriver 80.0.3987.106 (f68069574609230cf9b635cd784cfb1bf81bb53a-refs/branch-heads/3987@{#882}) on port 8209
+Starting ChromeDriver 80.0.3987.106 (f68069574609230cf9b635cd784cfb1bf81bb53a-refs/branch-heads/3987@{#882}) on port 2018
 Only local connections are allowed.
 Please protect ports used by ChromeDriver and related test frameworks to prevent access by malicious code.
-[1582540406.851][WARNING]: Timed out connecting to Chrome, retrying...
-фев 24, 2020 2:33:28 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+[1582626024.782][WARNING]: Timed out connecting to Chrome, retrying...
+фев 25, 2020 2:20:26 PM org.openqa.selenium.remote.ProtocolHandshake createSession
 INFO: Detected dialect: W3C
-фев 24, 2020 2:33:28 PM com.codeborne.selenide.webdriver.BrowserResizer adjustBrowserSize
+фев 25, 2020 2:20:26 PM com.codeborne.selenide.webdriver.BrowserResizer adjustBrowserSize
 INFO: Set browser size to 1366x768
-[1582540410.988][WARNING]: Timed out connecting to Chrome, retrying...
-фев 24, 2020 2:33:33 PM com.codeborne.selenide.webdriver.WebDriverFactory logBrowserVersion
-INFO: BrowserName=chrome Version=80.0.3987.116 Platform=WINDOWS
-фев 24, 2020 2:33:33 PM com.codeborne.selenide.webdriver.WebDriverFactory createWebDriver
+[1582626028.970][WARNING]: Timed out connecting to Chrome, retrying...
+фев 25, 2020 2:20:31 PM com.codeborne.selenide.webdriver.WebDriverFactory logBrowserVersion
+INFO: BrowserName=chrome Version=80.0.3987.122 Platform=WINDOWS
+фев 25, 2020 2:20:31 PM com.codeborne.selenide.webdriver.WebDriverFactory createWebDriver
 INFO: Selenide v. 5.3.1
-фев 24, 2020 2:33:33 PM com.codeborne.selenide.webdriver.WebDriverFactory logSeleniumInfo
+фев 25, 2020 2:20:31 PM com.codeborne.selenide.webdriver.WebDriverFactory logSeleniumInfo
 INFO: Selenium WebDriver v. 3.141.59 build time: 2018-11-14T08:17:03
-фев 24, 2020 2:33:33 PM com.codeborne.selenide.drivercommands.CreateDriverCommand createDriver
-INFO: Create webdriver in current thread 11: ChromeDriver -> ChromeDriver: chrome on WINDOWS (90eb55d5b6a3cf45ff5b08de46278907)
-[1582540413.398][SEVERE]: Timed out receiving message from renderer: 0.100
+фев 25, 2020 2:20:31 PM com.codeborne.selenide.drivercommands.CreateDriverCommand createDriver
+INFO: Create webdriver in current thread 11: ChromeDriver -> ChromeDriver: chrome on WINDOWS (9eea8bf550f8887aea30466829b4290f)
 ]]></system-err>
 </testsuite>
