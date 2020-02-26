@@ -3,13 +3,10 @@ package ru.netology.page;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
-import ru.netology.data.User;
 
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static ru.netology.data.DataHelper.generateForCard;
 
 public class CashPaymentPage {
 
@@ -36,8 +33,7 @@ public class CashPaymentPage {
         monthInputField.setValue(info.getMonth());
         yearInputField.setValue(info.getYear());
         cvcInputField.setValue(info.getCvc());
-        User userName = generateForCard();
-        ownerField.setValue(String.valueOf(userName));
+        ownerField.setValue(info.getOwner());
         continueButton.click();
     }
 

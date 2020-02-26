@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 import ru.netology.page.CashPaymentPage;
 import ru.netology.page.CreditPayPage;
+import ru.netology.page.InvalidData;
 import ru.netology.page.PaymentChoosePage;
 
 public class PaymentPageTest {
@@ -65,6 +66,52 @@ public class PaymentPageTest {
         creditPayPage.putValidCardData(cardInfo);
         creditPayPage.errorVerify();
     }
+    @Test
+    @DisplayName("should get red text with error notification if put invalid data in card fields when pay by debit card")
+    void shouldBeErrorTextWithInvalidCardDataByDebit() {
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        invalidData.putInvalidCardData();
+    }
+
+    @Test
+    @DisplayName("should get red text with error notification if put invalid data in card fields when pay by credit card")
+    void shouldBeErrorTextWithInvalidCardDataByCredit() {
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        invalidData.putInvalidCardData();
+    }
+
+    @Test
+    @DisplayName("should get red text with error notification if put invalid year and month when pay by debit card")
+    void shouldBeErrorTextWithInvalidYearAndMonthByDebit() {
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        val approvedCardInfo = DataHelper.approvedCardInfo();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.getCardNumber(approvedCardInfo);
+        invalidData.putInvalidYearAndMonth(cardInfo);
+    }
+
+    @Test
+    @DisplayName("should get red text with error notification if put invalid year and month when pay by credit card")
+    void shouldBeErrorTextWithInvalidYearAndMonthByCredit() {
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        val approvedCardInfo = DataHelper.declinedCardInfo();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.getCardNumber(approvedCardInfo);
+        invalidData.putInvalidYearAndMonth(cardInfo);
+    }
+
 
 
 }
