@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
 
+import java.time.LocalDate;
+
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -55,4 +57,23 @@ public class InvalidData {
         monthErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
+
+    public static String getRandomMinusTwoMonth() {
+        LocalDate today = LocalDate.now();
+        String month = String.format("%tm", today.minusMonths(2));
+        return (month);
+    }
+
+    public void putValidYearAndPastMonth(DataHelper.CardInfo info) {
+        monthInputField.setValue(InvalidData.getRandomMinusTwoMonth());
+        yearInputField.setValue(info.getYear());
+        cvcInputField.setValue(info.getCvc());
+        ownerField.setValue(info.getOwner());
+        continueButton.click();
+
+        monthErrorText.shouldHave(Condition.exactText("Истёк срок действия карты")).
+                getCssValue("color: #ff5c5c;");
+    }
+
+
 }
