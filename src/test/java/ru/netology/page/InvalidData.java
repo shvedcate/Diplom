@@ -60,18 +60,29 @@ public class InvalidData {
 
     public static String getRandomMinusTwoMonth() {
         LocalDate today = LocalDate.now();
-        String month = String.format("%tm", today.minusMonths(2));
+        String month = String.format("%tm", today.minusMonths(1));
         return (month);
     }
 
     public void putValidYearAndPastMonth(DataHelper.CardInfo info) {
         monthInputField.setValue(InvalidData.getRandomMinusTwoMonth());
-        yearInputField.setValue(info.getYear());
+        yearInputField.setValue("20");
         cvcInputField.setValue(info.getCvc());
         ownerField.setValue(info.getOwner());
         continueButton.click();
 
-        monthErrorText.shouldHave(Condition.exactText("Истёк срок действия карты")).
+        monthErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
+                getCssValue("color: #ff5c5c;");
+    }
+
+    public void putFutureYearAndValidData(DataHelper.CardInfo info) {
+        monthInputField.setValue(info.getMonth());
+        yearInputField.setValue("35");
+        cvcInputField.setValue(info.getCvc());
+        ownerField.setValue(info.getOwner());
+        continueButton.click();
+
+        yearErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
 

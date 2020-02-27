@@ -143,6 +143,32 @@ public class PaymentPageTest {
         invalidData.putValidYearAndPastMonth(cardInfo);
     }
 
+    @Test
+    @DisplayName("should get red text with error notification if put future year when pay by debit card")
+    void shouldHaveErrorTextIfPutFutureYearhInDebit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        val approvedCardInfo = DataHelper.approvedCardInfo();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.getCardNumber(approvedCardInfo);
+        invalidData.putFutureYearAndValidData(cardInfo);
+    }
+
+    @Test
+    @DisplayName("should get red text with error notification if put future year when pay by credit")
+    void shouldHaveErrorTextIfPutFutureYearhInCredit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        val approvedCardInfo = DataHelper.approvedCardInfo();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.getCardNumber(approvedCardInfo);
+        invalidData.putFutureYearAndValidData(cardInfo);
+    }
+
 
 
 
