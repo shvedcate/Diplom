@@ -45,7 +45,7 @@ public class DataHelper {
         return new CardInfo(month, year, cvc, owner);
     }
 
-    private static String generateOwnerName() {
+    public static String generateOwnerName() {
         Faker faker = new Faker(new Locale("ru"));
         return faker.name().firstName() + " " + faker.name().lastName();
     }

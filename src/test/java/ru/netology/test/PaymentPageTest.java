@@ -13,7 +13,7 @@ public class PaymentPageTest {
 
     //HAPPY PATH
     @Test
-    @DisplayName("if pay by card should get success notification with approved card and valid card data")
+    @DisplayName("if pay by card should get success notification with APPROVED card and valid card data")
     void shouldBuyTourWithCashValidDataApprovedCard() {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
@@ -98,9 +98,7 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
         val invalidData = new InvalidData();
-        val approvedCardInfo = DataHelper.approvedCardInfo();
         val cardInfo = DataHelper.getCardInfo();
-        invalidData.getCardNumber(approvedCardInfo);
         invalidData.putInvalidYearAndMonth(cardInfo);
     }
 
@@ -111,9 +109,7 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
         val invalidData = new InvalidData();
-        val declinedCardInfo = DataHelper.declinedCardInfo();
         val cardInfo = DataHelper.getCardInfo();
-        invalidData.getCardNumber(declinedCardInfo);
         invalidData.putInvalidYearAndMonth(cardInfo);
     }
 
@@ -124,9 +120,7 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
         val invalidData = new InvalidData();
-        val approvedCardInfo = DataHelper.approvedCardInfo();
         val cardInfo = DataHelper.getCardInfo();
-        invalidData.getCardNumber(approvedCardInfo);
         invalidData.putValidYearAndPastMonth(cardInfo);
     }
 
@@ -137,22 +131,18 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
         val invalidData = new InvalidData();
-        val approvedCardInfo = DataHelper.approvedCardInfo();
         val cardInfo = DataHelper.getCardInfo();
-        invalidData.getCardNumber(approvedCardInfo);
         invalidData.putValidYearAndPastMonth(cardInfo);
     }
 
     @Test
     @DisplayName("should get red text with error notification if put future year when pay by debit card")
-    void shouldHaveErrorTextIfPutFutureYearhInDebit(){
+    void shouldHaveErrorTextIfPutFutureYearInDebit(){
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
         val invalidData = new InvalidData();
-        val approvedCardInfo = DataHelper.approvedCardInfo();
         val cardInfo = DataHelper.getCardInfo();
-        invalidData.getCardNumber(approvedCardInfo);
         invalidData.putFutureYearAndValidData(cardInfo);
     }
 
@@ -163,13 +153,125 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
         val invalidData = new InvalidData();
-        val approvedCardInfo = DataHelper.approvedCardInfo();
         val cardInfo = DataHelper.getCardInfo();
-        invalidData.getCardNumber(approvedCardInfo);
         invalidData.putFutureYearAndValidData(cardInfo);
     }
 
+   //BUG
+   //Форма не должна отправиться, так как имя владельца карты всегда указывается латиницей. Но она отправляется
+    @Test
+    @DisplayName("should get red text with error notification if put owner name in kirilliza when pay by debit card")
+    void shouldHaveErrorTextIfPutOwnerNameByKirillizaInDebit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putRussianOwnerName(cardInfo);
+    }
+    //BUG
+    //Форма не должна отправиться, так как имя владельца карты всегда указывается латиницей. Но она отправляется
+    @Test
+    @DisplayName("should get red text with error notification if put owner name in kirilliza when pay by credit card")
+    void shouldHaveErrorTextIfPutOwnerNameByKirillizaInCredit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putRussianOwnerName(cardInfo);
+    }
 
+    @Test
+    @DisplayName("should get red text with error notification if data fields is empty when pay by debit card")
+    void shouldHaveErrorTextIfDataFieldsIsEmptyInDebit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        invalidData.putEmptyData();
+    }
+    @Test
+    @DisplayName("should get red text with error notification if data fields is empty when pay by credit card")
+    void shouldHaveErrorTextIfDataFieldsIsEmptyInCredit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        invalidData.putEmptyData();
+    }
 
+    @Test
+    @DisplayName("should get red text with error notification if put text in card number field when pay by debit card")
+    void shouldHaveErrorTextIfPutTextInCardNumberFieldInDebit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putTextInCardNumberField(cardInfo);
+    }
+    @Test
+    @DisplayName("should get red text with error notification if put text in card number field when pay by credit card")
+    void shouldHaveErrorTextIfPutTextInCardNumberFieldInCredit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putTextInCardNumberField(cardInfo);
+    }
 
+    //BUG
+    //Внизу поля "Владелец" должна появиться надпись "Неверный формат", но заявка проходит
+    @Test
+    @DisplayName("should get red text with error notification if put symbols in owner field when pay by debit card")
+    void shouldHaveErrorTextIfPutSymbolsInOwnerFieldInDebit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putSymbolsInOwnerField(cardInfo);
+    }
+
+    //BUG
+    //Внизу поля "Владелец" должна появиться надпись "Неверный формат", но заявка проходит
+    @Test
+    @DisplayName("should get red text with error notification if put symbols in owner field when pay by credit card")
+    void shouldHaveErrorTextIfPutSymbolsInOwnerFieldInCredit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putSymbolsInOwnerField(cardInfo);
+    }
+
+    //BUG
+    // В поле для владельца появляется надпись "Поле обязательно для заполнения",
+    // хотя оно заполнено валидными данными
+    @Test
+    @DisplayName("should get red text with error notification if put literas in fields for numbers when pay by debit card")
+    void shouldHaveErrorTextIfPutLiterasInDebit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putLiterasInFieldsForNumbers(cardInfo);
+    }
+    //BUG
+    // В поле для владельца появляется надпись "Поле обязательно для заполнения",
+    // хотя оно заполнено валидными данными
+    @Test
+    @DisplayName("should get red text with error notification if put literas in fields for numbers when pay by credit card")
+    void shouldHaveErrorTextIfPutLiterasInCredit(){
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val invalidData = new InvalidData();
+        val cardInfo = DataHelper.getCardInfo();
+        invalidData.putLiterasInFieldsForNumbers(cardInfo);
+    }
 }

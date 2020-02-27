@@ -41,11 +41,9 @@ public class InvalidData {
         ownerErrorText.shouldHave(Condition.exactText("Поле обязательно для заполнения")).getCssValue("color: #ff5c5c;");
     }
 
-    public void getCardNumber(DataHelper.CardNumber info) {
-        cardNumberField.setValue(info.getCardNumber());
-    }
 
     public void putInvalidYearAndMonth(DataHelper.CardInfo info) {
+        cardNumberField.setValue(DataHelper.approvedCardInfo().getCardNumber());
         monthInputField.setValue(info.getYear());
         yearInputField.setValue(info.getMonth());
         cvcInputField.setValue(info.getCvc());
@@ -65,6 +63,7 @@ public class InvalidData {
     }
 
     public void putValidYearAndPastMonth(DataHelper.CardInfo info) {
+        cardNumberField.setValue(DataHelper.declinedCardInfo().getCardNumber());
         monthInputField.setValue(InvalidData.getRandomMinusTwoMonth());
         yearInputField.setValue("20");
         cvcInputField.setValue(info.getCvc());
@@ -76,6 +75,7 @@ public class InvalidData {
     }
 
     public void putFutureYearAndValidData(DataHelper.CardInfo info) {
+        cardNumberField.setValue(DataHelper.approvedCardInfo().getCardNumber());
         monthInputField.setValue(info.getMonth());
         yearInputField.setValue("35");
         cvcInputField.setValue(info.getCvc());
@@ -85,6 +85,66 @@ public class InvalidData {
         yearErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
+
+    public void putRussianOwnerName(DataHelper.CardInfo info) {
+        cardNumberField.setValue(DataHelper.approvedCardInfo().getCardNumber());
+        monthInputField.setValue(info.getMonth());
+        yearInputField.setValue(info.getYear());
+        cvcInputField.setValue(info.getCvc());
+        ownerField.setValue(DataHelper.generateOwnerName());
+        continueButton.click();
+
+        ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+    }
+
+    public void putEmptyData() {
+        continueButton.click();
+
+        cardErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        monthErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        yearErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        cvcErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        ownerErrorText.shouldHave(Condition.exactText("Поле обязательно для заполнения")).getCssValue("color: #ff5c5c;");
+    }
+
+    public void putTextInCardNumberField(DataHelper.CardInfo info) {
+        monthInputField.setValue(info.getMonth());
+        yearInputField.setValue(info.getYear());
+        cvcInputField.setValue(info.getCvc());
+        ownerField.setValue(info.getOwner());
+        cardNumberField.setValue(info.getOwner());
+        continueButton.click();
+
+        cardErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+    }
+
+    public void putSymbolsInOwnerField(DataHelper.CardInfo info) {
+        cardNumberField.setValue(DataHelper.approvedCardInfo().getCardNumber());
+        monthInputField.setValue(info.getMonth());
+        yearInputField.setValue(info.getYear());
+        cvcInputField.setValue(info.getCvc());
+        ownerField.setValue("fgh123lkj");
+        continueButton.click();
+
+        ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+    }
+
+    public void putLiterasInFieldsForNumbers(DataHelper.CardInfo info) {
+        cardNumberField.setValue(info.getOwner());
+        monthInputField.setValue(info.getOwner());
+        yearInputField.setValue(info.getOwner());
+        cvcInputField.setValue(info.getOwner());
+        ownerField.setValue(info.getOwner());
+        continueButton.click();
+
+        monthErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        cardErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        yearErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        cvcErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
+        ownerErrorText.shouldHave(Condition.exactText(""));
+        }
+
+
 
 
 }
