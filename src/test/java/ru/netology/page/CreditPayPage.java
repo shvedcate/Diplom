@@ -9,26 +9,26 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class CreditPayPage {
-    private SelenideElement headingCredit = $$(".heading").find(Condition.exactText("Кредит по данным карты"));
-    private SelenideElement cardNumberField = $("[placeholder='0000 0000 0000 0000']");
-    private SelenideElement monthInputField = $("[placeholder='08']");
-    private SelenideElement yearInputField = $("[placeholder='22']");
-    private SelenideElement cvcInputField = $("[placeholder='999']");
-    private SelenideElement ownerField = $("div:nth-child(3) > span > span:nth-child(1) > span > span > span.input__box > input");
-    private SelenideElement continueButton = $$("button").find(Condition.exactText("Продолжить"));
-    private SelenideElement successNotification = $(withText("Операция одобрена Банком."));
-    private SelenideElement errorNotification = $(withText("Ошибка! Банк отказал в проведении операции."));
+    private static SelenideElement headingCredit = $$(".heading").find(Condition.exactText("Кредит по данным карты"));
+    private static SelenideElement cardNumberField = $("[placeholder='0000 0000 0000 0000']");
+    private static SelenideElement monthInputField = $("[placeholder='08']");
+    private static SelenideElement yearInputField = $("[placeholder='22']");
+    private static SelenideElement cvcInputField = $("[placeholder='999']");
+    private static SelenideElement ownerField = $("div:nth-child(3) > span > span:nth-child(1) > span > span > span.input__box > input");
+    private static SelenideElement continueButton = $$("button").find(Condition.exactText("Продолжить"));
+    private static SelenideElement successNotification = $(withText("Операция одобрена Банком."));
+    private static SelenideElement errorNotification = $(withText("Ошибка! Банк отказал в проведении операции."));
 
 
     public CreditPayPage() {
         headingCredit.shouldBe(Condition.visible);
     }
 
-    public void getCardNumber(DataHelper.CardNumber info) {
+    public static void getCardNumber(DataHelper.CardNumber info) {
         cardNumberField.setValue(info.getCardNumber());
     }
 
-    public void putValidCardData(DataHelper.CardInfo info) {
+    public static void putValidCardData(DataHelper.CardInfo info) {
         monthInputField.setValue(info.getMonth());
         yearInputField.setValue(info.getYear());
         cvcInputField.setValue(info.getCvc());
@@ -36,11 +36,11 @@ public class CreditPayPage {
         continueButton.click();
     }
 
-    public void validVerify() {
+    public static void validVerify() {
         successNotification.waitUntil(Condition.visible, 35000);
     }
 
-    public void errorVerify() {
+    public static void errorVerify() {
         errorNotification.waitUntil(Condition.visible, 35000);
     }
 }
