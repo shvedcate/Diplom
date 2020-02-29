@@ -10,6 +10,9 @@ services:
       - MYSQL_DATABASE=app
       - MYSQL_USER=app
       - MYSQL_PASSWORD=pass
+    build:
+      # стартуем datasoursce в postgres-режиме
+   - ps: ./gradlew test "-Dspring.datasource.url=jdbc:mysql"
   postgres:
     image: postgres:12-alpine
     restart: always
@@ -20,6 +23,10 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
+   build:
+    # стартуем datasoursce в postgres-режиме
+    - ps: ./gradlew test "-Dspring.datasource.url=jdbc:postgresql"
+
   nodejs:
     build: ./gate-simulator
     ports:

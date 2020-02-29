@@ -1,15 +1,24 @@
 package ru.netology.test;
 
 import lombok.val;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.page.CashPaymentPage;
 import ru.netology.page.CreditPayPage;
 import ru.netology.page.InvalidData;
 import ru.netology.page.PaymentChoosePage;
+import ru.netology.sqlUtils.SQLutils;
+
+import java.sql.SQLException;
 
 public class PaymentPageTest {
+
+
+   /* @BeforeEach
+    @DisplayName("Should clean Data Base after login")
+    void cleanBase() throws SQLException {
+        SQLutils.cleanDataBase();
+    }*/
 
     //HAPPY PATH
     @Test
