@@ -27,23 +27,51 @@ public class DataHelper {
         return new CardNumber("4444 4444 4444 4442", "DECLINED");
     }
 
+    @Value
+    public static class InvalidCardInfo {
+        private String pastMonth;
+        private String pastYear;
+        private String futureYear;
+        private String ownerNameRus;
+        final String unrealCardNum = "5555555555555555";
+        final String symbolOwnerName = "ghj$$$uytr";
+        final String cvcCode = "000";
+
+
+    public static InvalidCardInfo getInvalidCardInfo() {
+        LocalDate today = LocalDate.now();
+        String pastMonth = String.format("%tm", today.minusMonths(1));
+        String pastYear = String.format("%ty", today.minusYears(1));
+        String futureYear = String.format("%ty", today.plusYears(10));
+        String ownerNameRus = generateOwnerName();
+
+        return new InvalidCardInfo(pastMonth, pastYear, futureYear, ownerNameRus);
+    }
+}
+
+
+
 
     @Value
-    public static class CardInfo {
+    public static class ValidCardInfo {
         private String month;
         private String year;
         private String cvc;
         private String owner;
     }
 
-    public static CardInfo getCardInfo() {
-        String month = getRandomPlusTwoMonth();
+
+    public static ValidCardInfo getValidCardInfo() {
+        LocalDate today = LocalDate.now();
+        String month = String.format("%tm", today.plusMonths(2));
         String year = getRandomYear();
         String cvc = getRandomCVC();
         String owner = transliterate(generateOwnerName());
 
-        return new CardInfo(month, year, cvc, owner);
+        return new ValidCardInfo(month, year, cvc, owner);
     }
+
+
 
     public static String generateOwnerName() {
         Faker faker = new Faker(new Locale("ru"));
@@ -84,16 +112,14 @@ public class DataHelper {
     }
 
 
-    /*public static String getRandomMonth() {
-        String[] months = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-        Random random = new Random();
-        int index = random.nextInt(months.length);
-        return (months[index]);
-    }*/
-
     public static String getRandomPlusTwoMonth() {
         LocalDate today = LocalDate.now();
         String month = String.format("%tm", today.plusMonths(2));
+        return (month);
+    }
+    public static String getRandomMinusOneMonth() {
+        LocalDate today = LocalDate.now();
+        String month = String.format("%tm", today.minusMonths(1));
         return (month);
     }
 }

@@ -5,11 +5,7 @@ import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.page.CashPaymentPage;
 import ru.netology.page.CreditPayPage;
-import ru.netology.page.InvalidData;
 import ru.netology.page.PaymentChoosePage;
-import ru.netology.sqlUtils.SQLutils;
-
-import java.sql.SQLException;
 
 public class PaymentPageTest {
 
@@ -28,10 +24,11 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
         val approvedCardInfo = DataHelper.approvedCardInfo();
-        val cardInfo = DataHelper.getCardInfo();
-        CashPaymentPage.getCardNumber(approvedCardInfo);
-        CashPaymentPage.putValidCardData(cardInfo);
-        CashPaymentPage.validVerify();
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.getCardNumber(approvedCardInfo);
+        cashPaymentPage.putValidCardData(cardInfo);
+        cashPaymentPage.validVerify();
     }
 
     //BUG
@@ -42,10 +39,11 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
         val declinedCardInfo = DataHelper.declinedCardInfo();
-        val cardInfo = DataHelper.getCardInfo();
-        CashPaymentPage.getCardNumber(declinedCardInfo);
-        CashPaymentPage.putValidCardData(cardInfo);
-        CashPaymentPage.errorVerify();
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.getCardNumber(declinedCardInfo);
+        cashPaymentPage.putValidCardData(cardInfo);
+        cashPaymentPage.errorVerify();
     }
 
     @Test
@@ -55,10 +53,11 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
         val approvedCardInfo = DataHelper.approvedCardInfo();
-        val cardInfo = DataHelper.getCardInfo();
-        CreditPayPage.getCardNumber(approvedCardInfo);
-        CreditPayPage.putValidCardData(cardInfo);
-        CreditPayPage.validVerify();
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.getCardNumber(approvedCardInfo);
+        creditPayPage.putValidCardData(cardInfo);
+        creditPayPage.validVerify();
     }
 
     //BUG
@@ -69,10 +68,11 @@ public class PaymentPageTest {
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
         val declinedCardInfo = DataHelper.declinedCardInfo();
-        val cardInfo = DataHelper.getCardInfo();
-        CreditPayPage.getCardNumber(declinedCardInfo);
-        CreditPayPage.putValidCardData(cardInfo);
-        CreditPayPage.errorVerify();
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.getCardNumber(declinedCardInfo);
+        creditPayPage.putValidCardData(cardInfo);
+        creditPayPage.errorVerify();
     }
 
     //SAD PATH
@@ -82,7 +82,8 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        InvalidData.putInvalidCardData();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkAllInvalidData();
     }
 
     @Test
@@ -91,7 +92,8 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        InvalidData.putInvalidCardData();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkAllInvalidData();
     }
 
     @Test
@@ -100,8 +102,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putInvalidYearAndMonth(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkInvalidYearAndMonth(cardInfo);
     }
 
     @Test
@@ -110,8 +113,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putInvalidYearAndMonth(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkInvalidYearAndMonth(cardInfo);
     }
 
     @Test
@@ -120,8 +124,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putValidYearAndPastMonth(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkPastMonth(DataHelper.InvalidCardInfo.getInvalidCardInfo().getPastMonth(), cardInfo);
     }
 
     @Test
@@ -130,9 +135,11 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putValidYearAndPastMonth(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkPastMonth(DataHelper.InvalidCardInfo.getInvalidCardInfo().getPastMonth(), cardInfo);
     }
+
 
     @Test
     @DisplayName("should get red text with error notification if put future year when pay by debit card")
@@ -140,9 +147,11 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putFutureYearAndValidData(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkFutureYear(DataHelper.InvalidCardInfo.getInvalidCardInfo().getFutureYear(), cardInfo);
     }
+
 
     @Test
     @DisplayName("should get red text with error notification if put future year when pay by credit")
@@ -150,8 +159,10 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putFutureYearAndValidData(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkFutureYear(DataHelper.InvalidCardInfo.getInvalidCardInfo().getFutureYear(), cardInfo);
+
     }
 
    //BUG
@@ -162,9 +173,11 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putRussianOwnerName(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkRussianOwnerName(DataHelper.InvalidCardInfo.getInvalidCardInfo().getOwnerNameRus(), cardInfo);
     }
+
     //BUG
     //Форма не должна отправиться, так как имя владельца карты всегда указывается латиницей. Но она отправляется
     @Test
@@ -173,8 +186,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putRussianOwnerName(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkRussianOwnerName(DataHelper.InvalidCardInfo.getInvalidCardInfo().getOwnerNameRus(), cardInfo);
     }
 
     @Test
@@ -183,7 +197,8 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        InvalidData.putEmptyData();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkEmptyData();
     }
     @Test
     @DisplayName("should get red text with error notification if data fields is empty when pay by credit card")
@@ -191,7 +206,8 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        InvalidData.putEmptyData();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkEmptyData();
     }
 
     @Test
@@ -200,8 +216,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putTextInCardNumberField(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkTextInCardNumberField(cardInfo);
     }
     @Test
     @DisplayName("should get red text with error notification if put text in card number field when pay by credit card")
@@ -209,8 +226,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putTextInCardNumberField(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkTextInCardNumberField(cardInfo);
     }
 
     //BUG
@@ -221,9 +239,11 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putSymbolsInOwnerField(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkSymbolsInOwnerField(DataHelper.InvalidCardInfo.getInvalidCardInfo().getSymbolOwnerName(), cardInfo);
     }
+
 
     //BUG
     //Внизу поля "Владелец" должна появиться надпись "Неверный формат", но заявка проходит
@@ -233,8 +253,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putSymbolsInOwnerField(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkSymbolsInOwnerField(DataHelper.InvalidCardInfo.getInvalidCardInfo().getSymbolOwnerName(), cardInfo);
     }
 
     //BUG
@@ -246,8 +267,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putLiterasInFieldsForNumbers(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkLiterasInNumberFields(cardInfo);
     }
     //BUG
     // В поле для владельца появляется надпись "Поле обязательно для заполнения",
@@ -258,8 +280,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putLiterasInFieldsForNumbers(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkLiterasInNumberFields(cardInfo);
     }
 
     @Test
@@ -268,8 +291,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putUnrealCardNumber(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkUnrealCardNumber(DataHelper.InvalidCardInfo.getInvalidCardInfo().getUnrealCardNum(), cardInfo);
     }
     @Test
     @DisplayName("should get error notification if put unreal card number when pay by credit card")
@@ -277,8 +301,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putUnrealCardNumber(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkUnrealCardNumber(DataHelper.InvalidCardInfo.getInvalidCardInfo().getUnrealCardNum(), cardInfo);
     }
 
     //BUG
@@ -290,8 +315,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putNumbersInOwnerField(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.checkNumbersInOwnerField(cardInfo);
     }
     //BUG
     //Должна возникнуть надпись об ошибке
@@ -302,8 +328,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val cardInfo = DataHelper.getCardInfo();
-        InvalidData.putNumbersInOwnerField(cardInfo);
+        val cardInfo = DataHelper.getValidCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.checkNumbersInOwnerField(cardInfo);
     }
 
 }

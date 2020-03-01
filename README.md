@@ -27,6 +27,10 @@
             ````
             java -jar aqa-shop.jar
             ````
+Чтобы запустить SUT и БД PostgreSQL, нужно ввести команду
+            ````
+            java -Dspring.datasource.url=jdbc:postgresql://192.168.99.100:5432/app -jar aqa-shop.jar
+            ```` 
 1. В браузере открыть SUT в окне с адресом 
              ````
              localhost:8080
