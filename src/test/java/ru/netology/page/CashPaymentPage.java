@@ -32,9 +32,7 @@ public class CashPaymentPage {
         heading.waitUntil(Condition.exist, 5000);
     }
 
-    public void getCardNumber(DataHelper.CardNumber info) {
-        cardNumberField.setValue(info.getCardNumber());
-    }
+
 
     public void putCardData (String number, String month, String year, String owner, String code) {
         cardNumberField.setValue(number);
@@ -45,10 +43,15 @@ public class CashPaymentPage {
         continueButton.click();
     }
 
-    public void putValidCardData(DataHelper.ValidCardInfo info) {
+    public void putValidDataApprovedCard(DataHelper.ValidCardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getOwner(), info.getCvc());
-
+        successNotification.waitUntil(Condition.visible, 35000);
+    }
+    public void putValidDataDeclinedCard(DataHelper.ValidCardInfo info) {
+        putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
+                info.getOwner(), info.getCvc());
+        errorNotification.waitUntil(Condition.visible, 35000);
     }
 
     public void checkInvalidYearAndMonth(DataHelper.ValidCardInfo info) {
@@ -68,21 +71,21 @@ public class CashPaymentPage {
         cvcErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText("Поле обязательно для заполнения")).getCssValue("color: #ff5c5c;");
     }
-    public void checkPastMonth(String pastMonth, DataHelper.ValidCardInfo info) {
-        putCardData(DataHelper.approvedCardInfo().getCardNumber(), pastMonth, info.getYear(),
-                info.getOwner(), info.getCvc());
+    public void checkPastMonth(DataHelper.ValidCardInfo info) {
+        putCardData(DataHelper.approvedCardInfo().getCardNumber(), DataHelper.InvalidCardInfo.getInvalidCardInfo().getPastMonth(),
+                info.getYear(), info.getOwner(), info.getCvc());
         monthErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
-    public void checkFutureYear(String futureYear, DataHelper.ValidCardInfo info) {
+    public void checkFutureYear(DataHelper.ValidCardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(),
-                futureYear, info.getOwner(), info.getCvc());
+                DataHelper.InvalidCardInfo.getInvalidCardInfo().getFutureYear(), info.getOwner(), info.getCvc());
         yearErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
-    public void checkRussianOwnerName(String ownerNameRus, DataHelper.ValidCardInfo info) {
+    public void checkRussianOwnerName(DataHelper.ValidCardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
-                ownerNameRus, info.getCvc());
+                DataHelper.InvalidCardInfo.getInvalidCardInfo().getOwnerNameRus(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
     }
     public void checkEmptyData() {
@@ -97,9 +100,9 @@ public class CashPaymentPage {
         putCardData(info.getOwner(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
         cardErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
     }
-    public void checkSymbolsInOwnerField(String symbolOwnerName, DataHelper.ValidCardInfo info) {
+    public void checkSymbolsInOwnerField(DataHelper.ValidCardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
-                symbolOwnerName, info.getCvc());
+                DataHelper.InvalidCardInfo.getInvalidCardInfo().getSymbolOwnerName(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
     }
     public void checkLiterasInNumberFields(DataHelper.ValidCardInfo info) {
@@ -111,8 +114,9 @@ public class CashPaymentPage {
         cvcErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText(""));
     }
-    public void checkUnrealCardNumber(String unrealCardNum, DataHelper.ValidCardInfo info) {
-        putCardData(unrealCardNum, info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
+    public void checkUnrealCardNumber(DataHelper.ValidCardInfo info) {
+        putCardData(DataHelper.InvalidCardInfo.getInvalidCardInfo().getUnrealCardNum(),
+                info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
         errorNotification.waitUntil(Condition.visible, 35000);
     }
     public void checkNumbersInOwnerField(DataHelper.ValidCardInfo info) {
@@ -120,19 +124,5 @@ public class CashPaymentPage {
                 DataHelper.approvedCardInfo().getCardNumber(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
     }
-
-
-
-    public void validVerify() {
-        successNotification.waitUntil(Condition.visible, 35000);
-    }
-
-    public void errorVerify() {
-        errorNotification.waitUntil(Condition.visible, 35000);
-    }
-
-
-
-
 }
 

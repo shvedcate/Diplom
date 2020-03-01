@@ -23,12 +23,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val approvedCardInfo = DataHelper.approvedCardInfo();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
-        cashPaymentPage.getCardNumber(approvedCardInfo);
-        cashPaymentPage.putValidCardData(cardInfo);
-        cashPaymentPage.validVerify();
+        cashPaymentPage.putValidDataApprovedCard(cardInfo);
     }
 
     //BUG
@@ -38,12 +35,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
-        val declinedCardInfo = DataHelper.declinedCardInfo();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
-        cashPaymentPage.getCardNumber(declinedCardInfo);
-        cashPaymentPage.putValidCardData(cardInfo);
-        cashPaymentPage.errorVerify();
+        cashPaymentPage.putValidDataDeclinedCard(cardInfo);
     }
 
     @Test
@@ -52,12 +46,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val approvedCardInfo = DataHelper.approvedCardInfo();
         val cardInfo = DataHelper.getValidCardInfo();
         val creditPayPage = new CreditPayPage();
-        creditPayPage.getCardNumber(approvedCardInfo);
-        creditPayPage.putValidCardData(cardInfo);
-        creditPayPage.validVerify();
+        creditPayPage.putValidDataApprovedCard(cardInfo);
     }
 
     //BUG
@@ -67,12 +58,9 @@ public class PaymentPageTest {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
-        val declinedCardInfo = DataHelper.declinedCardInfo();
         val cardInfo = DataHelper.getValidCardInfo();
         val creditPayPage = new CreditPayPage();
-        creditPayPage.getCardNumber(declinedCardInfo);
-        creditPayPage.putValidCardData(cardInfo);
-        creditPayPage.errorVerify();
+        creditPayPage.putValidDataDeclinedCard(cardInfo);
     }
 
     //SAD PATH
@@ -126,7 +114,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCashPaymentPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
-        cashPaymentPage.checkPastMonth(DataHelper.InvalidCardInfo.getInvalidCardInfo().getPastMonth(), cardInfo);
+        cashPaymentPage.checkPastMonth(cardInfo);
     }
 
     @Test
@@ -137,7 +125,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCreditPayPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val creditPayPage = new CreditPayPage();
-        creditPayPage.checkPastMonth(DataHelper.InvalidCardInfo.getInvalidCardInfo().getPastMonth(), cardInfo);
+        creditPayPage.checkPastMonth(cardInfo);
     }
 
 
@@ -149,7 +137,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCashPaymentPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
-        cashPaymentPage.checkFutureYear(DataHelper.InvalidCardInfo.getInvalidCardInfo().getFutureYear(), cardInfo);
+        cashPaymentPage.checkFutureYear(cardInfo);
     }
 
 
@@ -161,8 +149,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCreditPayPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val creditPayPage = new CreditPayPage();
-        creditPayPage.checkFutureYear(DataHelper.InvalidCardInfo.getInvalidCardInfo().getFutureYear(), cardInfo);
-
+        creditPayPage.checkFutureYear(cardInfo);
     }
 
    //BUG
@@ -175,7 +162,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCashPaymentPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
-        cashPaymentPage.checkRussianOwnerName(DataHelper.InvalidCardInfo.getInvalidCardInfo().getOwnerNameRus(), cardInfo);
+        cashPaymentPage.checkRussianOwnerName(cardInfo);
     }
 
     //BUG
@@ -188,7 +175,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCreditPayPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val creditPayPage = new CreditPayPage();
-        creditPayPage.checkRussianOwnerName(DataHelper.InvalidCardInfo.getInvalidCardInfo().getOwnerNameRus(), cardInfo);
+        creditPayPage.checkRussianOwnerName(cardInfo);
     }
 
     @Test
@@ -241,7 +228,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCashPaymentPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
-        cashPaymentPage.checkSymbolsInOwnerField(DataHelper.InvalidCardInfo.getInvalidCardInfo().getSymbolOwnerName(), cardInfo);
+        cashPaymentPage.checkSymbolsInOwnerField(cardInfo);
     }
 
 
@@ -255,7 +242,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCreditPayPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val creditPayPage = new CreditPayPage();
-        creditPayPage.checkSymbolsInOwnerField(DataHelper.InvalidCardInfo.getInvalidCardInfo().getSymbolOwnerName(), cardInfo);
+        creditPayPage.checkSymbolsInOwnerField(cardInfo);
     }
 
     //BUG
@@ -293,7 +280,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCashPaymentPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
-        cashPaymentPage.checkUnrealCardNumber(DataHelper.InvalidCardInfo.getInvalidCardInfo().getUnrealCardNum(), cardInfo);
+        cashPaymentPage.checkUnrealCardNumber(cardInfo);
     }
     @Test
     @DisplayName("should get error notification if put unreal card number when pay by credit card")
@@ -303,7 +290,7 @@ public class PaymentPageTest {
         paymentChoosePage.openCreditPayPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val creditPayPage = new CreditPayPage();
-        creditPayPage.checkUnrealCardNumber(DataHelper.InvalidCardInfo.getInvalidCardInfo().getUnrealCardNum(), cardInfo);
+        creditPayPage.checkUnrealCardNumber(cardInfo);
     }
 
     //BUG
