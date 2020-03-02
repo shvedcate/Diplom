@@ -24,10 +24,12 @@
              npm start
              ````
 1. В третьем терминале в папке artifacts запустить SUT командой
+
+  - для конфигурации с базой данный MySql: 
             ````
-            java -jar aqa-shop.jar
+            java -Dspring.datasource.url=jdbc:mysql://192.168.99.100:3306/app -jar aqa-shop.jar
             ````
-Чтобы запустить SUT и БД PostgreSQL, нужно ввести команду
+  - для конфигурации с базой данных PostgreSQL:
             ````
             java -Dspring.datasource.url=jdbc:postgresql://192.168.99.100:5432/app -jar aqa-shop.jar
             ```` 

@@ -2,12 +2,21 @@ package ru.netology.test;
 
 import lombok.val;
 import org.junit.jupiter.api.*;
+import ru.netology.data.AppProp;
 import ru.netology.data.DataHelper;
 import ru.netology.page.CashPaymentPage;
 import ru.netology.page.CreditPayPage;
 import ru.netology.page.PaymentChoosePage;
 
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static ru.netology.sqlUtils.SQLutils.getOrderEntityId;
+import static ru.netology.sqlUtils.SQLutils.getPaymentEntityId;
+
 public class PaymentPageTest {
+
+    static AppProp props;
 
 
    /* @BeforeEach
@@ -16,16 +25,25 @@ public class PaymentPageTest {
         SQLutils.cleanDataBase();
     }*/
 
+   @BeforeAll
+   static void setupAll() {
+       props = AppProp.getAppProp();
+   }
+
     //HAPPY PATH
     @Test
     @DisplayName("should get success notification with APPROVED card, valid card data when pay by debit")
-    void shouldBuyTourWithValidDataApprovedCardInDebit() {
+    void shouldBuyTourWithValidDataApprovedCardInDebit() throws SQLException {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
         val cardInfo = DataHelper.getValidCardInfo();
         val cashPaymentPage = new CashPaymentPage();
         cashPaymentPage.putValidDataApprovedCard(cardInfo);
+        val paymentEntityId = getPaymentEntityId(props.getDatabaseUrl(), props.getUserName(), props.getPassword());
+        assertNotEquals("", paymentEntityId);
+        val orderId = getOrderEntityId(props.getDatabaseUrl(), props.getUserName(), props.getPassword());
+        assertNotEquals("", orderId);
     }
 
     //BUG
