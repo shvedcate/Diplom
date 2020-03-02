@@ -38,8 +38,14 @@
              localhost:8080
              ````
 1. Запустить автотесты командой 
+
+ -  для конфигурации с MySql
             ````
-            gradlew test
+            gradlew test -Dspring.datasource.url_1=jdbc:mysql://192.168.99.100:3306/app
+            ````
+ - для конфигурации с postgresql
+            ````
+            gradlew test -Dspring.datasource.url_1=jdbc:postgresql://192.168.99.100:5432/app
             ````
 
 ## Описание приложения

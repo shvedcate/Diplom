@@ -17,7 +17,7 @@ public class AppProp {
     private String creditGateUrl;
     private String paymentGateUrl;
 
-    public static AppProp getAppProp() {
+    public static AppProp getAppPropMySql() {
         FileInputStream fileInputStream;
         Properties prop = new Properties();
         try {
@@ -26,7 +26,22 @@ public class AppProp {
         } catch (IOException e) {
             System.out.println("Ошибка! Файл свойств отсутствует.");
         }
-        return new AppProp(prop.getProperty("spring.datasource.url"),
+        return new AppProp(prop.getProperty("spring.datasource.url_1"),
+                prop.getProperty("spring.datasource.username"),
+                prop.getProperty("spring.datasource.password"),
+                prop.getProperty("spring.credit-gate.url"),
+                prop.getProperty("spring.payment-gate.url"));
+    }
+    public static AppProp getAppPropPostgresql() {
+        FileInputStream fileInputStream;
+        Properties prop = new Properties();
+        try {
+            fileInputStream = new FileInputStream("artifacts/application.properties");
+            prop.load(fileInputStream);
+        } catch (IOException e) {
+            System.out.println("Ошибка! Файл свойств отсутствует.");
+        }
+        return new AppProp(prop.getProperty("spring.datasource.url_2"),
                 prop.getProperty("spring.datasource.username"),
                 prop.getProperty("spring.datasource.password"),
                 prop.getProperty("spring.credit-gate.url"),
