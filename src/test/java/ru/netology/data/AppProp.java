@@ -32,5 +32,4 @@ public class AppProp {
                 prop.getProperty("spring.credit-gate.url"),
                 prop.getProperty("spring.payment-gate.url"));
     }
-
 }

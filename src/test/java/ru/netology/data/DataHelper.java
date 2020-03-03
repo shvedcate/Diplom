@@ -28,7 +28,11 @@ public class DataHelper {
     }
 
     @Value
-    public static class InvalidCardInfo {
+    public static class CardInfo {
+        private String month;
+        private String year;
+        private String cvc;
+        private String owner;
         private String pastMonth;
         private String pastYear;
         private String futureYear;
@@ -36,40 +40,22 @@ public class DataHelper {
         final String unrealCardNum = "5555555555555555";
         final String symbolOwnerName = "ghj$$$uytr";
         final String cvcCode = "000";
-
-
-    public static InvalidCardInfo getInvalidCardInfo() {
-        LocalDate today = LocalDate.now();
-        String pastMonth = String.format("%tm", today.minusMonths(1));
-        String pastYear = String.format("%ty", today.minusYears(1));
-        String futureYear = String.format("%ty", today.plusYears(10));
-        String ownerNameRus = generateOwnerName();
-
-        return new InvalidCardInfo(pastMonth, pastYear, futureYear, ownerNameRus);
-    }
-}
-
-
-
-
-    @Value
-    public static class ValidCardInfo {
-        private String month;
-        private String year;
-        private String cvc;
-        private String owner;
     }
 
+        public static CardInfo getCardInfo() {
+            LocalDate today = LocalDate.now();
+            String month = String.format("%tm", today.plusMonths(2));
+            String year = getRandomYear();
+            String cvc = getRandomCVC();
+            String owner = transliterate(generateOwnerName());
+            String pastMonth = String.format("%tm", today.minusMonths(1));
+            String pastYear = String.format("%ty", today.minusYears(1));
+            String futureYear = String.format("%ty", today.plusYears(10));
+            String ownerNameRus = generateOwnerName();
 
-    public static ValidCardInfo getValidCardInfo() {
-        LocalDate today = LocalDate.now();
-        String month = String.format("%tm", today.plusMonths(2));
-        String year = getRandomYear();
-        String cvc = getRandomCVC();
-        String owner = transliterate(generateOwnerName());
+            return new CardInfo(month, year, cvc, owner, pastMonth, pastYear, futureYear, ownerNameRus);
+        }
 
-        return new ValidCardInfo(month, year, cvc, owner);
-    }
 
 
 
@@ -109,18 +95,6 @@ public class DataHelper {
         Random random = new Random();
         int index = random.nextInt(years.length);
         return (years[index]);
-    }
-
-
-    public static String getRandomPlusTwoMonth() {
-        LocalDate today = LocalDate.now();
-        String month = String.format("%tm", today.plusMonths(2));
-        return (month);
-    }
-    public static String getRandomMinusOneMonth() {
-        LocalDate today = LocalDate.now();
-        String month = String.format("%tm", today.minusMonths(1));
-        return (month);
     }
 }
 

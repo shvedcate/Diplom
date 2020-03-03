@@ -41,18 +41,18 @@ public class CreditPayPage {
         continueButton.click();
     }
 
-    public void putValidDataApprovedCard(DataHelper.ValidCardInfo info) {
+    public void putValidDataApprovedCard(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getOwner(), info.getCvc());
         successNotification.waitUntil(Condition.visible, 35000);
     }
-    public void putValidDataDeclinedCard(DataHelper.ValidCardInfo info) {
+    public void putValidDataDeclinedCard(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getOwner(), info.getCvc());
         errorNotification.waitUntil(Condition.visible, 35000);
     }
 
-    public void checkInvalidYearAndMonth(DataHelper.ValidCardInfo info) {
+    public void checkInvalidYearAndMonth(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getYear(), info.getMonth(),
                 info.getOwner(), info.getCvc());
         yearErrorText.shouldHave(Condition.exactText("Истёк срок действия карты")).
@@ -69,21 +69,21 @@ public class CreditPayPage {
         cvcErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText("Поле обязательно для заполнения")).getCssValue("color: #ff5c5c;");
     }
-    public void checkPastMonth(DataHelper.ValidCardInfo info) {
-        putCardData(DataHelper.approvedCardInfo().getCardNumber(), DataHelper.InvalidCardInfo.getInvalidCardInfo().getPastMonth(),
+    public void checkPastMonth(DataHelper.CardInfo info) {
+        putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getPastMonth(),
                 info.getYear(), info.getOwner(), info.getCvc());
         monthErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
-    public void checkFutureYear(DataHelper.ValidCardInfo info) {
+    public void checkFutureYear(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(),
-                DataHelper.InvalidCardInfo.getInvalidCardInfo().getFutureYear(), info.getOwner(), info.getCvc());
+                info.getFutureYear(), info.getOwner(), info.getCvc());
         yearErrorText.shouldHave(Condition.exactText("Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
-    public void checkRussianOwnerName(DataHelper.ValidCardInfo info) {
+    public void checkRussianOwnerName(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
-                DataHelper.InvalidCardInfo.getInvalidCardInfo().getOwnerNameRus(), info.getCvc());
+                info.getOwnerNameRus(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
 
     }
@@ -95,16 +95,16 @@ public class CreditPayPage {
         cvcErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText("Поле обязательно для заполнения")).getCssValue("color: #ff5c5c;");
     }
-    public void checkTextInCardNumberField(DataHelper.ValidCardInfo info) {
+    public void checkTextInCardNumberField(DataHelper.CardInfo info) {
         putCardData(info.getOwner(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
         cardErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
     }
-    public void checkSymbolsInOwnerField(DataHelper.ValidCardInfo info) {
+    public void checkSymbolsInOwnerField(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
-                DataHelper.InvalidCardInfo.getInvalidCardInfo().getSymbolOwnerName(), info.getCvc());
+                info.getSymbolOwnerName(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
     }
-    public void checkLiterasInNumberFields(DataHelper.ValidCardInfo info) {
+    public void checkLiterasInNumberFields(DataHelper.CardInfo info) {
         putCardData(info.getOwner(), info.getOwner(), info.getOwner(), info.getOwner(),
                 info.getOwner());
         monthErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
@@ -113,12 +113,11 @@ public class CreditPayPage {
         cvcErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText(""));
     }
-    public void checkUnrealCardNumber(DataHelper.ValidCardInfo info) {
-        putCardData(DataHelper.InvalidCardInfo.getInvalidCardInfo().getUnrealCardNum(),
-                info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
+    public void checkUnrealCardNumber(DataHelper.CardInfo info) {
+        putCardData(info.getUnrealCardNum(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
         errorNotification.waitUntil(Condition.visible, 35000);
     }
-    public void checkNumbersInOwnerField(DataHelper.ValidCardInfo info) {
+    public void checkNumbersInOwnerField(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 DataHelper.approvedCardInfo().getCardNumber(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Неверный формат")).getCssValue("color: #ff5c5c;");
