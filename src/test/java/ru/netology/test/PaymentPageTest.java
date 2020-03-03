@@ -27,8 +27,7 @@ public class PaymentPageTest {
 
    @BeforeAll
    static void setupAll() {
-       props = AppProp.getAppPropMySql();
-       props = AppProp.getAppPropPostgresql();
+       props = AppProp.getAppProp();
    }
 
     //HAPPY PATH

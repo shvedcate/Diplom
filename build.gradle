@@ -25,6 +25,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    systemProperty 'spring.datasource.url_1', System.getProperty('spring.datasource.url_1')
-    systemProperty 'spring.datasource.url_2', System.getProperty('spring.datasource.url_2')
+    systemProperty 'spring.datasource.url_1', System.getProperty('spring.datasource.url_2')
 }

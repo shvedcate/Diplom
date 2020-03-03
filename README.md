@@ -20,19 +20,25 @@
            docker-compose up
            ````
 1. Во втором терминале в папке gate-simulator запустить платежный шлюз командой 
-            ````
+
+             ````
              npm start
              ````
+             
 1. В третьем терминале в папке artifacts запустить SUT командой
 
   - для конфигурации с базой данный MySql: 
+  
             ````
             java -Dspring.datasource.url=jdbc:mysql://192.168.99.100:3306/app -jar aqa-shop.jar
             ````
+            
   - для конфигурации с базой данных PostgreSQL:
+  
             ````
             java -Dspring.datasource.url=jdbc:postgresql://192.168.99.100:5432/app -jar aqa-shop.jar
             ```` 
+            
 1. В браузере открыть SUT в окне с адресом 
              ````
              localhost:8080
@@ -40,10 +46,13 @@
 1. Запустить автотесты командой 
 
  -  для конфигурации с MySql
+ 
             ````
             gradlew test -Dspring.datasource.url_1=jdbc:mysql://192.168.99.100:3306/app
             ````
+            
  - для конфигурации с postgresql
+ 
             ````
             gradlew test -Dspring.datasource.url_1=jdbc:postgresql://192.168.99.100:5432/app
             ````
