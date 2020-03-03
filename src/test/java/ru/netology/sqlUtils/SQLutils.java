@@ -17,7 +17,8 @@ public class SQLutils {
         AppProp props = AppProp.getAppProp();
         val runner = new QueryRunner();
         //try (val conn = DriverManager.getConnection(props.getDatabaseUrl(), "app", "pass"))
-        try (val conn = DriverManager.getConnection("jdbc:mysql://192.168.99.100:3306/app", "app", "pass")) {
+        try (val conn = DriverManager.getConnection("jdbc:mysql://192.168.99.100:3306/app", "app", "pass"))
+        {
             val cleanCreditRequestEntity = runner.execute(conn, cleanCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
             val cleanPaymentEntity = runner.execute(conn, cleanPayment, new BeanHandler<>(PaymentEntity.class));
             val cleanOrderEntity = runner.execute(conn, cleanOrder, new BeanHandler<>(OrderEntity.class));
