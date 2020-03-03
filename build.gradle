@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id "io.freefair.lombok" version "4.1.3"
+    id 'io.qameta.allure' version '2.8.1'
 }
 
 group 'ru.netology'
@@ -10,7 +11,14 @@ sourceCompatibility = 1.8
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
+allure {
+    autoconfigure = true
+    version='2.13.0'
+    useJUnit5 { version='2.13.0'}
+}
+
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -21,6 +29,7 @@ dependencies {
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
     testImplementation 'commons-dbutils:commons-dbutils:1.7'
     testImplementation 'org.postgresql:postgresql:42.2.0'
+    testImplementation 'io.qameta.allure:allure-selenide:2.13.0'
 }
 
 test {
