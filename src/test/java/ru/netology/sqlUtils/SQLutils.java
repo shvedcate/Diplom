@@ -13,21 +13,23 @@ public class SQLutils {
 
 
     public static void cleanDB() throws SQLException {
+        SQLutils.getConnection();
         val cleanCreditRequest = "DELETE FROM credit_request_entity;";
         val cleanPayment = "DELETE FROM payment_entity;";
         val cleanOrder = "DELETE FROM order_entity;";
         val runner = new QueryRunner();
 
 
-           /*val cleanCreditRequestEntity = runner.execute(cleanCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
+           val cleanCreditRequestEntity = runner.execute(cleanCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
            val cleanPaymentEntity = runner.execute(cleanPayment, new BeanHandler<>(PaymentEntity.class));
-           val cleanOrderEntity = runner.execute(cleanOrder, new BeanHandler<>(OrderEntity.class));*/
-        int result = runner.execute(cleanCreditRequest);
+           val cleanOrderEntity = runner.execute(cleanOrder, new BeanHandler<>(OrderEntity.class));
+        /*int result = runner.execute(cleanCreditRequest);
         result = runner.execute(cleanPayment);
-        result = runner.execute(cleanOrder);
+        result = runner.execute(cleanOrder);*/
     }
 
     public static String getPaymentEntityId(String status) throws SQLException {
+        SQLutils.getConnection();
         val paymentEntity = "SELECT * FROM payment_entity WHERE status='" + status + "';";
         val runner = new QueryRunner();
         val paymentBlock = runner.query(paymentEntity, new BeanHandler<>(PaymentEntity.class));
@@ -52,7 +54,7 @@ public class SQLutils {
 
     public static void getConnection() throws SQLException{
         try {
-            String url = "spring.datasource.url";
+            String url = System.getProperty("spring.datasource.url");
             String username = "app";
             String password = "pass";
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();

@@ -22,11 +22,11 @@ public class PaymentPageTest {
 
 
 
-    /*@BeforeEach
+    @BeforeEach
     @DisplayName("Чистит базу данных перед каждым тестом")
     void cleanBase() throws SQLException {
         SQLutils.cleanDB();
-    }*/
+    }
 
    @BeforeAll
    static void setupAll() throws SQLException{
