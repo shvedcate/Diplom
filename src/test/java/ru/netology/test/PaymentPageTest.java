@@ -4,7 +4,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
 import org.junit.jupiter.api.*;
-import ru.netology.data.AppProp;
+//import ru.netology.data.AppProp;
 import ru.netology.data.DataHelper;
 import ru.netology.page.CashPaymentPage;
 import ru.netology.page.CreditPayPage;
@@ -19,19 +19,19 @@ import static ru.netology.sqlUtils.SQLutils.getPaymentEntityId;
 
 public class PaymentPageTest {
 
-    static AppProp props;
 
 
-    @BeforeEach
+
+    /*@BeforeEach
     @DisplayName("Чистит базу данных перед каждым тестом")
     void cleanBase() throws SQLException {
         SQLutils.cleanDB();
-    }
+    }*/
 
    @BeforeAll
-   static void setupAll() {
+   static void setupAll() throws SQLException{
        SelenideLogger.addListener("allure", new AllureSelenide());
-       //props = AppProp.getAppProp();
+       //SQLutils.getConnection();
    }
 
     @AfterAll
@@ -49,14 +49,14 @@ public class PaymentPageTest {
         val cardInfo = DataHelper.getCardInfo();
         val cashPaymentPage = new CashPaymentPage();
         cashPaymentPage.putValidDataApprovedCard(cardInfo);
-       /* val paymentEntityId = getPaymentEntityId(props.getDatabaseUrl(), props.getUserName(), props.getPassword(), DataHelper.approvedCardInfo().getStatus());
+        /*val paymentEntityId = getPaymentEntityId(DataHelper.approvedCardInfo().getStatus());
         assertNotEquals("", paymentEntityId);
-        val orderId = getOrderEntityId(props.getDatabaseUrl(), props.getUserName(), props.getPassword(), paymentEntityId);
+        val orderId = getOrderEntityId(paymentEntityId);
         assertNotEquals("", orderId);*/
     }
 
     //BUG
-   /* @Test
+    @Test
     @DisplayName("if pay by card should get error notification with DECLINED card and valid card data")
     void shouldGetErrorIfBuyWithCashValidDataAndDeclinedCard() {
         val paymentChoosePage = new PaymentChoosePage();
@@ -345,5 +345,5 @@ public class PaymentPageTest {
         val cardInfo = DataHelper.getCardInfo();
         val creditPayPage = new CreditPayPage();
         creditPayPage.checkNumbersInOwnerField(cardInfo);
-    }*/
+    }
 }
