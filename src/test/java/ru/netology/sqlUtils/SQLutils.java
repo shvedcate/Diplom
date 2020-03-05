@@ -18,53 +18,83 @@ public class SQLutils {
         val cleanPayment = "DELETE FROM payment_entity;";
         val cleanOrder = "DELETE FROM order_entity;";
         val runner = new QueryRunner();
+        try (val conn = getConnection()) {
+            val cleanCreditRequestEntity = runner.execute(conn, cleanCreditRequest);
+            val cleanPaymentEntity = runner.execute(conn, cleanPayment);
+            val cleanOrderEntity = runner.execute(conn, cleanOrder);
+        }
+    }
 
+    public static String getCreditCardStatus() throws SQLException {
 
-           val cleanCreditRequestEntity = runner.execute(cleanCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
-           val cleanPaymentEntity = runner.execute(cleanPayment, new BeanHandler<>(PaymentEntity.class));
-           val cleanOrderEntity = runner.execute(cleanOrder, new BeanHandler<>(OrderEntity.class));
-        /*int result = runner.execute(cleanCreditRequest);
-        result = runner.execute(cleanPayment);
-        result = runner.execute(cleanOrder);*/
+        val selectStatus = "SELECT * FROM credit_request_entity";
+        val runner = new QueryRunner();
+        try (val conn = getConnection()) {
+            val creditCardStatus = runner.query(conn, selectStatus, new BeanHandler<>(CreditRequestEntity.class));
+            return creditCardStatus.getStatus();
+        }
+    }
+
+    public static String getDebitCardStatus() throws SQLException {
+
+        val selectStatus = "SELECT * FROM payment_entity";
+        val runner = new QueryRunner();
+        try (val conn = getConnection()) {
+            val debitCardStatus = runner.query(conn, selectStatus, new BeanHandler<>(PaymentEntity.class));
+            return debitCardStatus.getStatus();
+        }
     }
 
     public static String getPaymentEntityId(String status) throws SQLException {
-        SQLutils.getConnection();
+
         val paymentEntity = "SELECT * FROM payment_entity WHERE status='" + status + "';";
         val runner = new QueryRunner();
-        val paymentBlock = runner.query(paymentEntity, new BeanHandler<>(PaymentEntity.class));
+        try (val conn = getConnection()) {
+            val paymentBlock = runner.query(conn, paymentEntity, new BeanHandler<>(PaymentEntity.class));
             return paymentBlock.getTransaction_id();
+        }
     }
 
     public static String getCreditRequestEntityId(String status) throws SQLException {
         val creditRequest = "SELECT * FROM credit_request_entity WHERE status='" + status + "';";
         val runner = new QueryRunner();
-        val creditRequestBlock = runner.query(creditRequest, new BeanHandler<>(CreditRequestEntity.class));
+        try (val conn = getConnection()) {
+            val creditRequestBlock = runner.query(conn, creditRequest, new BeanHandler<>(CreditRequestEntity.class));
             return creditRequestBlock.getBank_id();
         }
+    }
 
 
     public static String getOrderEntityId(String paymentEntityId) throws SQLException {
         val orderEntity = "SELECT * FROM order_entity WHERE payment_id='" + paymentEntityId + "';";
         val runner = new QueryRunner();
-        val orderBlock = runner.query(orderEntity, new BeanHandler<>(OrderEntity.class));
+        try (val conn = getConnection()) {
+            val orderBlock = runner.query(conn, orderEntity, new BeanHandler<>(OrderEntity.class));
             return orderBlock.getId();
         }
+    }
 
 
-    public static void getConnection() throws SQLException{
+    public static Connection getConnection() throws SQLException {
         try {
             String url = System.getProperty("spring.datasource.url");
             String username = "app";
             String password = "pass";
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)) {
-                System.out.println("Connection to Store DB success!");
+            // Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Connection conn = null;
+            try {
+                conn = DriverManager.getConnection(url, username, password);
+                {
+                    System.out.println("Connection to Store DB success!");
+                    return conn;
+                }
+            } catch (Exception ex) {
+                System.out.println("Connection failed...");
+                System.out.println(ex);
             }
-        } catch (Exception ex) {
-            System.out.println("Connection failed...");
-            System.out.println(ex);
-        }
+            return null;
+        } finally {
 
+        }
     }
 }

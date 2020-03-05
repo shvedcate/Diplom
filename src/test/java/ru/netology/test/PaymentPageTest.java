@@ -4,7 +4,6 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
 import org.junit.jupiter.api.*;
-//import ru.netology.data.AppProp;
 import ru.netology.data.DataHelper;
 import ru.netology.page.CashPaymentPage;
 import ru.netology.page.CreditPayPage;
@@ -13,16 +12,13 @@ import ru.netology.sqlUtils.SQLutils;
 
 import java.sql.SQLException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static ru.netology.sqlUtils.SQLutils.getOrderEntityId;
-import static ru.netology.sqlUtils.SQLutils.getPaymentEntityId;
+import static ru.netology.sqlUtils.SQLutils.*;
 
 public class PaymentPageTest {
 
-
-
-
-    @BeforeEach
+    @AfterEach
     @DisplayName("Чистит базу данных перед каждым тестом")
     void cleanBase() throws SQLException {
         SQLutils.cleanDB();
@@ -31,7 +27,7 @@ public class PaymentPageTest {
    @BeforeAll
    static void setupAll() throws SQLException{
        SelenideLogger.addListener("allure", new AllureSelenide());
-       //SQLutils.getConnection();
+       SQLutils.getConnection();
    }
 
     @AfterAll
@@ -49,45 +45,100 @@ public class PaymentPageTest {
         val cardInfo = DataHelper.getCardInfo();
         val cashPaymentPage = new CashPaymentPage();
         cashPaymentPage.putValidDataApprovedCard(cardInfo);
-        /*val paymentEntityId = getPaymentEntityId(DataHelper.approvedCardInfo().getStatus());
+        val paymentEntityId = getPaymentEntityId(DataHelper.approvedCardInfo().getStatus());
         assertNotEquals("", paymentEntityId);
         val orderId = getOrderEntityId(paymentEntityId);
-        assertNotEquals("", orderId);*/
+        assertNotEquals("", orderId);
     }
 
-    //BUG
+    //BUG должно появиться сообщение "Банк отказал в проведении операции" и в базе данных не должно быть записей
     @Test
     @DisplayName("if pay by card should get error notification with DECLINED card and valid card data")
-    void shouldGetErrorIfBuyWithCashValidDataAndDeclinedCard() {
+    void shouldGetErrorIfBuyWithCashValidDataAndDeclinedCard() throws SQLException {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCashPaymentPage();
         val cardInfo = DataHelper.getCardInfo();
         val cashPaymentPage = new CashPaymentPage();
         cashPaymentPage.putValidDataDeclinedCard(cardInfo);
+        val paymentEntityId = getPaymentEntityId(DataHelper.declinedCardInfo().getStatus());
+        assertNotEquals("", paymentEntityId);
+        val orderId = getOrderEntityId(paymentEntityId);
+        assertNotEquals("", orderId);
     }
 
     @Test
     @DisplayName("if pay by credit should get success notification with APPROVED card and valid card data")
-    void shouldBuyTourWithCreditValidDataApprovedCard() {
+    void shouldBuyTourWithCreditValidDataApprovedCard() throws SQLException {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
         val cardInfo = DataHelper.getCardInfo();
         val creditPayPage = new CreditPayPage();
         creditPayPage.putValidDataApprovedCard(cardInfo);
+        val creditRequestEntityId = getCreditRequestEntityId(DataHelper.approvedCardInfo().getStatus());
+        assertNotEquals("", creditRequestEntityId);
+        val orderId = getOrderEntityId(creditRequestEntityId);
+        assertNotEquals("", orderId);
     }
 
     //BUG
     @Test
     @DisplayName("if pay by credit should get success notification with DECLINED card and valid card data")
-    void shouldGetErrorWithCreditValidDataDeclinedCard() {
+    void shouldGetErrorWithCreditValidDataDeclinedCard() throws SQLException {
         val paymentChoosePage = new PaymentChoosePage();
         paymentChoosePage.openPaymentChoosePage();
         paymentChoosePage.openCreditPayPage();
         val cardInfo = DataHelper.getCardInfo();
         val creditPayPage = new CreditPayPage();
         creditPayPage.putValidDataDeclinedCard(cardInfo);
+        val creditRequestEntityId = getCreditRequestEntityId(DataHelper.declinedCardInfo().getStatus());
+        assertNotEquals("", creditRequestEntityId);
+        val orderId = getOrderEntityId(creditRequestEntityId);
+        assertNotEquals("", orderId);
+    }
+
+    @Test
+    @DisplayName("APPROVED card status should be equals with status in data vase with valid card data when pay by debit")
+    void approvedCardStatusShouldBeEqualsWithDBInDebit() throws SQLException {
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val actual = DataHelper.approvedCardInfo().getStatus();
+        val cardInfo = DataHelper.getCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.putValidDataApprovedCard(cardInfo);
+        val expected = getDebitCardStatus();
+        assertEquals(expected, actual);
+    }
+
+    /*@Test
+    @DisplayName("APPROVED card status should be equals with status in data vase with valid card data when pay by credit")
+    void approvedCardStatusShouldBeEqualsWithDBInCredit() throws SQLException {
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCreditPayPage();
+        val actual = DataHelper.approvedCardInfo().getStatus();
+        val cardInfo = DataHelper.getCardInfo();
+        val creditPayPage = new CreditPayPage();
+        creditPayPage.putValidDataApprovedCard(cardInfo);
+        val expected = getDebitCardStatus();
+        assertEquals(expected, actual);
+    }*/
+
+    //BUG Должно быть сообщение "Банк отказал в проведении операции"
+    @Test
+    @DisplayName("DECLINED card status should be equals with status in data vase with valid card data when pay by debit")
+    void declinedCardStatusShouldBeEqualsWithDBInDebit() throws SQLException {
+        val paymentChoosePage = new PaymentChoosePage();
+        paymentChoosePage.openPaymentChoosePage();
+        paymentChoosePage.openCashPaymentPage();
+        val actual = DataHelper.declinedCardInfo().getStatus();
+        val cardInfo = DataHelper.getCardInfo();
+        val cashPaymentPage = new CashPaymentPage();
+        cashPaymentPage.putValidDataDeclinedCard(cardInfo);
+        val expected = getDebitCardStatus();
+        assertEquals(expected, actual);
     }
 
     //SAD PATH
