@@ -19,12 +19,8 @@ public class CashPaymentPage {
     private SelenideElement continueButton = $$("button").find(Condition.exactText("Продолжить"));
     private SelenideElement successNotification = $(withText("Операция одобрена Банком."));
     private SelenideElement errorNotification = $(withText("Ошибка! Банк отказал в проведении операции."));
+    private SelenideElement crossButtonInErrorNotification = $$(".notification_theme_alfa-on-white > button").last();
 
-    //private SelenideElement cardErrorText = $("div:nth-child(1) > span > span > span.input__sub");
-    //private SelenideElement monthErrorText = $("div:nth-child(2) > span > span:nth-child(1) > span > span > span.input__sub");
-    //private SelenideElement yearErrorText = $("div:nth-child(2) > span > span:nth-child(2) > span > span > span.input__sub");
-    //private SelenideElement cvcErrorText = $("div:nth-child(3) > span > span:nth-child(2) > span > span > span.input__sub");
-    //private SelenideElement ownerErrorText = $("div:nth-child(3) > span > span:nth-child(1) > span > span > span.input__sub");
     private SelenideElement cardErrorText = $("div:nth-child(1) > span");
     private SelenideElement monthErrorText = $("div:nth-child(2) > span > span:nth-child(1)" );
     private SelenideElement yearErrorText = $("div:nth-child(2) > span > span:nth-child(2) > span");
@@ -59,6 +55,12 @@ public class CashPaymentPage {
         errorNotification.waitUntil(Condition.visible, 35000);
     }
 
+    public void checkValidDataDeclinedCard(DataHelper.CardInfo info) {
+        putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
+                info.getOwner(), info.getCvc());
+        successNotification.waitUntil(Condition.visible, 35000);
+    }
+
     public void checkInvalidYearAndMonth(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getYear(), info.getMonth(),
                 info.getOwner(), info.getCvc());
@@ -78,7 +80,7 @@ public class CashPaymentPage {
     }
     public void checkPastMonth(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getPastMonth(),
-                info.getYear(), info.getOwner(), info.getCvc());
+                info.getTodayYear(), info.getOwner(), info.getCvc());
         monthErrorText.shouldHave(Condition.exactText("Месяц Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
@@ -123,6 +125,8 @@ public class CashPaymentPage {
         putCardData(info.getUnrealCardNum(),
                 info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
         errorNotification.waitUntil(Condition.visible, 35000);
+        crossButtonInErrorNotification.click();
+        successNotification.shouldNotBe(Condition.visible);
     }
     public void checkNumbersInOwnerField(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),

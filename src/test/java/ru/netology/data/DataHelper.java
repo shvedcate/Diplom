@@ -37,6 +37,7 @@ public class DataHelper {
         private String pastYear;
         private String futureYear;
         private String ownerNameRus;
+        private String todayYear;
         final String unrealCardNum = "5555555555555555";
         final String symbolOwnerName = "ghj$$$uytr";
         final String cvcCode = "000";
@@ -46,6 +47,7 @@ public class DataHelper {
             LocalDate today = LocalDate.now();
             String month = String.format("%tm", today.plusMonths(2));
             String year = getRandomYear();
+            String todayYear = String.format(String.valueOf(today.getYear()));
             String cvc = getRandomCVC();
             String owner = transliterate(generateOwnerName());
             String pastMonth = String.format("%tm", today.minusMonths(1));
@@ -53,7 +55,7 @@ public class DataHelper {
             String futureYear = String.format("%ty", today.plusYears(10));
             String ownerNameRus = generateOwnerName();
 
-            return new CardInfo(month, year, cvc, owner, pastMonth, pastYear, futureYear, ownerNameRus);
+            return new CardInfo(month, year, cvc, owner, pastMonth, pastYear, futureYear, ownerNameRus, todayYear);
         }
 
 

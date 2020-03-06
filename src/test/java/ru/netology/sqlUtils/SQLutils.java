@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 public class SQLutils {
 
 
@@ -80,7 +82,6 @@ public class SQLutils {
             String url = System.getProperty("spring.datasource.url");
             String username = "app";
             String password = "pass";
-            // Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection conn = null;
             try {
                 conn = DriverManager.getConnection(url, username, password);
@@ -97,4 +98,32 @@ public class SQLutils {
 
         }
     }
+
+    public static void emptyPaymentEntity() throws SQLException {
+        val paymentRequest = "SELECT * FROM payment_entity;";
+        val runner = new QueryRunner();
+        try (val conn = getConnection()) {
+            val paymentBlock = runner.query(conn, paymentRequest, new BeanHandler<>(PaymentEntity.class));
+            assertNull(paymentBlock);
+        }
+    }
+
+    public static void emptyCreditEntity() throws SQLException {
+        val creditRequest = "SELECT * FROM credit_request_entity;";
+        val runner = new QueryRunner();
+        try (val conn = getConnection()) {
+            val creditRequestBlock = runner.query(conn, creditRequest, new BeanHandler<>(CreditRequestEntity.class));
+            assertNull(creditRequestBlock);
+        }
+    }
+
+    public static void emptyOrderEntity() throws SQLException {
+        val orderRequest = "SELECT * FROM order_entity;";
+        val runner = new QueryRunner();
+        try (val conn = getConnection()) {
+            val orderBlock = runner.query(conn, orderRequest, new BeanHandler<>(OrderEntity.class));
+            assertNull(orderBlock);
+        }
+    }
+
 }
