@@ -10,11 +10,11 @@
 
 **Отчёт о проведённом тестировании**
 
-[Report.md]()
+[Report.md](https://github.com/shvedcate/Diplom/blob/master/Report.md)
 
 ### Отчётные документы по итогам автоматизации
 
-[Summary.md]()
+[Summary.md](https://github.com/shvedcate/Diplom/blob/master/Summary.md)
 
 ## Запуск приложения
 
@@ -57,17 +57,17 @@
    -  для конфигурации с MySql
  
       ````
-      gradlew test -Dspring.datasource.url=jdbc:mysql://192.168.99.100:3306/app
+      gradlew test -Dtest.dburl=jdbc:mysql://192.168.99.100:3306/app
       ````
             
    - для конфигурации с postgresql
  
       ````
-      gradlew test -Dspring.datasource.url=jdbc:postgresql://192.168.99.100:5432/app
+      gradlew test -Dtest.dburl=jdbc:postgresql://192.168.99.100:5432/app
       ````
 1. Остановить SUT командой CTRL + C
 
-1. Остановить контейнеры командой CTRL + C и после очистить контейнеры командой
+1. Остановить контейнеры командой CTRL + C и после удалить контейнеры командой
 
       ````
       docker-compose down
@@ -84,8 +84,9 @@
 Само приложение не обрабатывает данные по картам, а пересылает их 
 банковским сервисам:
 
-* сервису платежей (далее - Payment Gate)
-* кредитному сервису (далее - Credit Gate)
+* сервису платежей (Payment Gate)
+* кредитному сервису (Credit Gate)
+
 Приложение должно в собственной СУБД сохранять информацию о том, 
 каким способом был совершён платёж и успешно ли он был совершён 
 (при этом данные карт сохранять не допускается).

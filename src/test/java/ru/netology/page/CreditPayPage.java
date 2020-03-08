@@ -21,7 +21,7 @@ public class CreditPayPage {
     private SelenideElement crossButtonInErrorNotification = $$(".notification_theme_alfa-on-white > button").last();
 
     private SelenideElement cardErrorText = $("div:nth-child(1) > span");
-    private SelenideElement monthErrorText = $("div:nth-child(2) > span > span:nth-child(1)" );
+    private SelenideElement monthErrorText = $("div:nth-child(2) > span > span:nth-child(1)");
     private SelenideElement yearErrorText = $("div:nth-child(2) > span > span:nth-child(2) > span");
     private SelenideElement cvcErrorText = $("div:nth-child(3) > span > span:nth-child(2) > span");
     private SelenideElement ownerErrorText = $("div:nth-child(3) > span > span:nth-child(1) > span");
@@ -30,9 +30,7 @@ public class CreditPayPage {
         headingCredit.shouldBe(Condition.visible);
     }
 
-
-
-    public void putCardData (String number, String month, String year, String owner, String code) {
+    public void putCardData(String number, String month, String year, String owner, String code) {
         cardNumberField.setValue(number);
         monthInputField.setValue(month);
         yearInputField.setValue(year);
@@ -46,6 +44,7 @@ public class CreditPayPage {
                 info.getOwner(), info.getCvc());
         successNotification.waitUntil(Condition.visible, 35000);
     }
+
     public void putValidDataDeclinedCard(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getOwner(), info.getCvc());
@@ -75,23 +74,27 @@ public class CreditPayPage {
         cvcErrorText.shouldHave(Condition.exactText("CVC/CVV Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText("Владелец Поле обязательно для заполнения")).getCssValue("color: #ff5c5c;");
     }
+
     public void checkPastMonth(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getPastMonth(),
                 info.getTodayYear(), info.getOwner(), info.getCvc());
         monthErrorText.shouldHave(Condition.exactText("Месяц Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
+
     public void checkFutureYear(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(),
                 info.getFutureYear(), info.getOwner(), info.getCvc());
         yearErrorText.shouldHave(Condition.exactText("Год Неверно указан срок действия карты")).
                 getCssValue("color: #ff5c5c;");
     }
+
     public void checkRussianOwnerName(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getOwnerNameRus(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Владелец Неверный формат")).getCssValue("color: #ff5c5c;");
     }
+
     public void checkEmptyData() {
         putCardData(" ", " ", " ", " ", " ");
         cardErrorText.shouldHave(Condition.exactText("Номер карты Неверный формат")).getCssValue("color: #ff5c5c;");
@@ -100,15 +103,18 @@ public class CreditPayPage {
         cvcErrorText.shouldHave(Condition.exactText("CVC/CVV Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText("Владелец Поле обязательно для заполнения")).getCssValue("color: #ff5c5c;");
     }
+
     public void checkTextInCardNumberField(DataHelper.CardInfo info) {
         putCardData(info.getOwner(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
         cardErrorText.shouldHave(Condition.exactText("Номер карты Неверный формат")).getCssValue("color: #ff5c5c;");
     }
+
     public void checkSymbolsInOwnerField(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getSymbolOwnerName(), info.getCvc());
         ownerErrorText.shouldHave(Condition.exactText("Владелец Неверный формат")).getCssValue("color: #ff5c5c;");
     }
+
     public void checkLiterasInNumberFields(DataHelper.CardInfo info) {
         putCardData(info.getOwner(), info.getOwner(), info.getOwner(), info.getOwner(),
                 info.getOwner());
@@ -118,6 +124,7 @@ public class CreditPayPage {
         cvcErrorText.shouldHave(Condition.exactText("CVC/CVV Неверный формат")).getCssValue("color: #ff5c5c;");
         ownerErrorText.shouldHave(Condition.exactText("Владелец" + ""));
     }
+
     public void checkUnrealCardNumber(DataHelper.CardInfo info) {
         putCardData(info.getUnrealCardNum(),
                 info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
@@ -125,6 +132,7 @@ public class CreditPayPage {
         crossButtonInErrorNotification.click();
         successNotification.shouldNotBe(Condition.visible);
     }
+
     public void checkNumbersInOwnerField(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 DataHelper.approvedCardInfo().getCardNumber(), info.getCvc());

@@ -43,23 +43,20 @@ public class DataHelper {
         final String cvcCode = "000";
     }
 
-        public static CardInfo getCardInfo() {
-            LocalDate today = LocalDate.now();
-            String month = String.format("%tm", today.plusMonths(2));
-            String year = getRandomYear();
-            String todayYear = String.format(String.valueOf(today.getYear()));
-            String cvc = getRandomCVC();
-            String owner = transliterate(generateOwnerName());
-            String pastMonth = String.format("%tm", today.minusMonths(1));
-            String pastYear = String.format("%ty", today.minusYears(1));
-            String futureYear = String.format("%ty", today.plusYears(10));
-            String ownerNameRus = generateOwnerName();
+    public static CardInfo getCardInfo() {
+        LocalDate today = LocalDate.now();
+        String month = String.format("%tm", today.plusMonths(2));
+        String year = getRandomYear();
+        String todayYear = String.format(String.valueOf(today.getYear()));
+        String cvc = getRandomCVC();
+        String owner = transliterate(generateOwnerName());
+        String pastMonth = String.format("%tm", today.minusMonths(1));
+        String pastYear = String.format("%ty", today.minusYears(1));
+        String futureYear = String.format("%ty", today.plusYears(10));
+        String ownerNameRus = generateOwnerName();
 
-            return new CardInfo(month, year, cvc, owner, pastMonth, pastYear, futureYear, ownerNameRus, todayYear);
-        }
-
-
-
+        return new CardInfo(month, year, cvc, owner, pastMonth, pastYear, futureYear, ownerNameRus, todayYear);
+    }
 
     public static String generateOwnerName() {
         Faker faker = new Faker(new Locale("ru"));

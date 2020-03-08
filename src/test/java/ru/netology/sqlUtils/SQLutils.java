@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class SQLutils {
 
-
     public static void cleanDB() throws SQLException {
         SQLutils.getConnection();
         val cleanCreditRequest = "DELETE FROM credit_request_entity;";
@@ -76,10 +75,9 @@ public class SQLutils {
         }
     }
 
-
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
         try {
-            String url = System.getProperty("spring.datasource.url");
+            String url = System.getProperty("test.dburl");
             String username = "app";
             String password = "pass";
             Connection conn = null;
@@ -125,5 +123,4 @@ public class SQLutils {
             assertNull(orderBlock);
         }
     }
-
 }

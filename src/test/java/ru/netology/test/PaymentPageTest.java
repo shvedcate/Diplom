@@ -25,12 +25,12 @@ public class PaymentPageTest {
         SQLutils.cleanDB();
     }
 
-   @BeforeAll
-   static void setupAll() throws SQLException{
-       SelenideLogger.addListener("allure", new AllureSelenide());
-       SQLutils.getConnection();
-       cardInfo = DataHelper.getCardInfo();
-   }
+    @BeforeAll
+    static void setupAll() throws SQLException {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+        SQLutils.getConnection();
+        cardInfo = DataHelper.getCardInfo();
+    }
 
     @AfterAll
     static void tearDownAll() {
@@ -216,8 +216,8 @@ public class PaymentPageTest {
         emptyOrderEntity();
     }
 
-   //BUG
-   //Форма не должна отправиться, так как имя владельца карты всегда указывается латиницей. Но она отправляется
+    //BUG
+    //Форма не должна отправиться, так как имя владельца карты всегда указывается латиницей. Но она отправляется
     @Test
     @DisplayName("should get red text with error notification if put owner name in kirilliza when pay by debit card")
     void shouldHaveErrorTextIfPutOwnerNameByKirillizaInDebit() throws SQLException {
