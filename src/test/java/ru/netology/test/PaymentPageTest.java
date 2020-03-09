@@ -196,7 +196,6 @@ public class PaymentPageTest {
         emptyOrderEntity();
     }
 
-
     @Test
     @DisplayName("should get red text with error notification if put future year when pay by debit card")
     void shouldHaveErrorTextIfPutFutureYearInDebit() throws SQLException {
