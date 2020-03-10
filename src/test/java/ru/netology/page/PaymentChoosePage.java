@@ -13,7 +13,8 @@ public class PaymentChoosePage {
 
 
     public void openPaymentChoosePage() {
-        open("http://localhost:8080");
+        String suturl = System.getProperty("test.suturl");
+        open(suturl);
     }
 
     public void openCashPaymentPage() {

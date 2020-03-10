@@ -65,7 +65,6 @@ public class SQLutils {
         }
     }
 
-
     public static String getOrderEntityId(String paymentEntityId) throws SQLException {
         val orderEntity = "SELECT * FROM order_entity WHERE payment_id='" + paymentEntityId + "';";
         val runner = new QueryRunner();
@@ -75,29 +74,7 @@ public class SQLutils {
         }
     }
 
-    public static Connection getConnection() {
-        try {
-            String url = System.getProperty("test.dburl");
-            String username = "app";
-            String password = "pass";
-            Connection conn = null;
-            try {
-                conn = DriverManager.getConnection(url, username, password);
-                {
-                    System.out.println("Connection to Store DB success!");
-                    return conn;
-                }
-            } catch (Exception ex) {
-                System.out.println("Connection failed...");
-                System.out.println(ex);
-            }
-            return null;
-        } finally {
-
-        }
-    }
-
-    public static void emptyPaymentEntity() throws SQLException {
+    public static void checkEmptyPaymentEntity() throws SQLException {
         val paymentRequest = "SELECT * FROM payment_entity;";
         val runner = new QueryRunner();
         try (val conn = getConnection()) {
@@ -106,7 +83,7 @@ public class SQLutils {
         }
     }
 
-    public static void emptyCreditEntity() throws SQLException {
+    public static void checkEmptyCreditEntity() throws SQLException {
         val creditRequest = "SELECT * FROM credit_request_entity;";
         val runner = new QueryRunner();
         try (val conn = getConnection()) {
@@ -115,7 +92,7 @@ public class SQLutils {
         }
     }
 
-    public static void emptyOrderEntity() throws SQLException {
+    public static void checkEmptyOrderEntity() throws SQLException {
         val orderRequest = "SELECT * FROM order_entity;";
         val runner = new QueryRunner();
         try (val conn = getConnection()) {
@@ -123,4 +100,16 @@ public class SQLutils {
             assertNull(orderBlock);
         }
     }
+
+    private static Connection getConnection() throws SQLException {
+
+        String url = System.getProperty("test.dburl");
+        String username = System.getProperty("test.dblogin");
+        String password = System.getProperty("test.dbpassword");
+        Connection conn = DriverManager.getConnection(url, username, password);
+        return conn;
+    }
 }
+
+
+

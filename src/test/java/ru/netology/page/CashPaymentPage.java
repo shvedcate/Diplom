@@ -1,6 +1,7 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
 
@@ -22,7 +23,7 @@ public class CashPaymentPage {
     private SelenideElement errorNotification = $(withText("Ошибка! Банк отказал в проведении операции."));
     private SelenideElement crossButtonInErrorNotification = $$(".notification_theme_alfa-on-white > button").last();
 
-    private SelenideElement wrongFormatError = $(byText("Неверный формат"));
+    private ElementsCollection wrongFormatError = $$(byText("Неверный формат"));
     private SelenideElement mustBeFieldError = $(byText("Поле обязательно для заполнения"));
     private SelenideElement cardPeriodError = $(byText("Истёк срок действия карты"));
     private SelenideElement invalidCardPeriodError = $(byText("Неверно указан срок действия карты"));
@@ -68,10 +69,7 @@ public class CashPaymentPage {
 
     public void checkAllInvalidData() {
         putCardData("123", "0", "0", " ", "6");
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
+        wrongFormatError.shouldHaveSize(4);
         mustBeFieldError.shouldBe(Condition.visible);
     }
 
@@ -90,36 +88,30 @@ public class CashPaymentPage {
     public void checkRussianOwnerName(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getOwnerNameRus(), info.getCvc());
-        wrongFormatError.shouldBe(Condition.visible);
+        wrongFormatError.shouldHaveSize(1);
     }
 
     public void checkEmptyData() {
         putCardData(" ", " ", " ", " ", " ");
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
+        wrongFormatError.shouldHaveSize(4);
         mustBeFieldError.shouldBe(Condition.visible);
     }
 
     public void checkTextInCardNumberField(DataHelper.CardInfo info) {
         putCardData(info.getOwner(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
-        wrongFormatError.shouldBe(Condition.visible);
+        wrongFormatError.shouldHaveSize(1);
     }
 
     public void checkSymbolsInOwnerField(DataHelper.CardInfo info) {
         putCardData(DataHelper.approvedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 info.getSymbolOwnerName(), info.getCvc());
-        wrongFormatError.shouldBe(Condition.visible);
+        wrongFormatError.shouldHaveSize(1);
     }
 
     public void checkLiterasInNumberFields(DataHelper.CardInfo info) {
         putCardData(info.getOwner(), info.getOwner(), info.getOwner(), info.getOwner(),
                 info.getOwner());
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
-        wrongFormatError.shouldBe(Condition.visible);
+        wrongFormatError.shouldHaveSize(4);
         mustBeFieldError.shouldNotBe(Condition.visible);
     }
 
@@ -134,7 +126,7 @@ public class CashPaymentPage {
     public void checkNumbersInOwnerField(DataHelper.CardInfo info) {
         putCardData(DataHelper.declinedCardInfo().getCardNumber(), info.getMonth(), info.getYear(),
                 DataHelper.approvedCardInfo().getCardNumber(), info.getCvc());
-        wrongFormatError.shouldBe(Condition.visible);
+        wrongFormatError.shouldHaveSize(1);
     }
 }
 

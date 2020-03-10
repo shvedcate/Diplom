@@ -28,7 +28,6 @@ public class PaymentPageTest {
     @BeforeAll
     static void setupAll() throws SQLException {
         SelenideLogger.addListener("allure", new AllureSelenide());
-        SQLutils.getConnection();
         cardInfo = DataHelper.getCardInfo();
     }
 
@@ -96,7 +95,7 @@ public class PaymentPageTest {
         cashPaymentPage.putValidDataDeclinedCard(cardInfo);
         val paymentEntityId = getPaymentEntityId(DataHelper.declinedCardInfo().getStatus());
         assertNotEquals("", paymentEntityId);
-        emptyOrderEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG
@@ -108,7 +107,7 @@ public class PaymentPageTest {
         creditPayPage.putValidDataDeclinedCard(cardInfo);
         val creditRequestEntityId = getCreditRequestEntityId(DataHelper.declinedCardInfo().getStatus());
         assertNotEquals("", creditRequestEntityId);
-        emptyOrderEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG Статус карты в базе должен быть DECLINED, но в таблице OrderEntity не должны появляться данные
@@ -123,7 +122,7 @@ public class PaymentPageTest {
         assertEquals(expected, actual);
         val paymentEntityId = getPaymentEntityId(actual);
         assertNotEquals("", paymentEntityId);
-        emptyOrderEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG Статус карты в базе должен быть DECLINED, но в таблице OrderEntity не должны появляться данные
@@ -138,7 +137,7 @@ public class PaymentPageTest {
         assertEquals(expected, actual);
         val creditEntityId = getCreditRequestEntityId(actual);
         assertNotEquals("", creditEntityId);
-        emptyOrderEntity();
+        checkEmptyOrderEntity();
     }
 
     //SAD PATH
@@ -147,8 +146,8 @@ public class PaymentPageTest {
     void shouldBeErrorTextWithInvalidCardDataByDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkAllInvalidData();
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -156,8 +155,8 @@ public class PaymentPageTest {
     void shouldBeErrorTextWithInvalidCardDataByCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkAllInvalidData();
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -165,8 +164,8 @@ public class PaymentPageTest {
     void shouldBeErrorTextWithInvalidYearAndMonthByDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkInvalidYearAndMonth(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -174,8 +173,8 @@ public class PaymentPageTest {
     void shouldBeErrorTextWithInvalidYearAndMonthByCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkInvalidYearAndMonth(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -183,8 +182,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutPastMonthInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkPastMonth(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -192,8 +191,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutPastMonthInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkPastMonth(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -201,8 +200,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutFutureYearInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkFutureYear(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
 
@@ -211,8 +210,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutFutureYearhInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkFutureYear(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG
@@ -222,8 +221,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutOwnerNameByKirillizaInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkRussianOwnerName(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG
@@ -233,8 +232,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutOwnerNameByKirillizaInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkRussianOwnerName(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -242,8 +241,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfDataFieldsIsEmptyInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkEmptyData();
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
 
@@ -252,8 +251,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfDataFieldsIsEmptyInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkEmptyData();
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     @Test
@@ -261,8 +260,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutTextInCardNumberFieldInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkTextInCardNumberField(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
 
@@ -271,8 +270,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutTextInCardNumberFieldInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkTextInCardNumberField(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG
@@ -282,8 +281,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutSymbolsInOwnerFieldInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkSymbolsInOwnerField(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
 
@@ -294,8 +293,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutSymbolsInOwnerFieldInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkSymbolsInOwnerField(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG
@@ -306,8 +305,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutLiterasInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkLiterasInNumberFields(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
 
@@ -319,8 +318,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutLiterasInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkLiterasInNumberFields(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG после сообщения об ошибочной операции появляется сообщение "Успешно! Операция одобрена банком"
@@ -329,8 +328,8 @@ public class PaymentPageTest {
     void shouldHaveErrorNotificationIfPutUnrealCardNumberInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkUnrealCardNumber(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG после сообщения об ошибочной операции появляется сообщение "Успешно! Операция одобрена банком"
@@ -339,8 +338,8 @@ public class PaymentPageTest {
     void shouldHaveErrorNotificationIfPutUnrealCardNumberInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkUnrealCardNumber(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 
     //BUG
@@ -351,8 +350,8 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutNumbersInOwnerFieldInDebit() throws SQLException {
         val cashPaymentPage = getCashPaymentPage();
         cashPaymentPage.checkNumbersInOwnerField(cardInfo);
-        emptyPaymentEntity();
-        emptyOrderEntity();
+        checkEmptyPaymentEntity();
+        checkEmptyOrderEntity();
     }
 
 
@@ -364,7 +363,7 @@ public class PaymentPageTest {
     void shouldHaveErrorTextIfPutNumbersInOwnerFieldInCredit() throws SQLException {
         val creditPayPage = getCreditPayPage();
         creditPayPage.checkNumbersInOwnerField(cardInfo);
-        emptyCreditEntity();
-        emptyOrderEntity();
+        checkEmptyCreditEntity();
+        checkEmptyOrderEntity();
     }
 }

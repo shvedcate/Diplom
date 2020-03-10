@@ -4,6 +4,7 @@ HELP.md
 .gradle
 build/
 gate-simulator/node_modules/
+.allure
 
 ### STS ###
 .apt_generated
