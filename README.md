@@ -4,17 +4,17 @@
 комплексного сервиса, взаимодействующего с СУБД и API Банка.
 
 ### План автоматизации 
- [Plan.md](https://github.com/shvedcate/Diplom/blob/master/Plan.md)
+ [Plan.md](https://github.com/shvedcate/Diplom/blob/master/docs/Plan.md)
  
 ### Отчётные документы по итогам тестирования
 
 **Отчёт о проведённом тестировании**
 
-[Report.md](https://github.com/shvedcate/Diplom/blob/master/Report.md)
+[Report.md](https://github.com/shvedcate/Diplom/blob/master/docs/Report.md)
 
 ### Отчётные документы по итогам автоматизации
 
-[Summary.md](https://github.com/shvedcate/Diplom/blob/master/Summary.md)
+[Summary.md](https://github.com/shvedcate/Diplom/blob/master/docs/Summary.md)
 
 ## Запуск приложения
 
