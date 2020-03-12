@@ -26,7 +26,7 @@ public class PaymentPageTest {
     }
 
     @BeforeAll
-    static void setupAll() throws SQLException {
+    static void setupAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
         cardInfo = DataHelper.getCardInfo();
     }

@@ -101,7 +101,7 @@ public class SQLutils {
         }
     }
 
-    private static Connection getConnection() throws SQLException {
+    private static Connection getConnection() {
 
         String url = System.getProperty("test.dburl");
         String username = System.getProperty("test.dblogin");
