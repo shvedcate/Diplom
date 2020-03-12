@@ -106,7 +106,13 @@ public class SQLutils {
         String url = System.getProperty("test.dburl");
         String username = System.getProperty("test.dblogin");
         String password = System.getProperty("test.dbpassword");
-        Connection conn = DriverManager.getConnection(url, username, password);
+        Connection conn = null;
+        try {
+        conn = DriverManager.getConnection(url, username, password);
+        System.out.print("Connection success!");}
+        catch (SQLException e) {
+            System.out.print("Connection failed");
+        }
         return conn;
     }
 }
